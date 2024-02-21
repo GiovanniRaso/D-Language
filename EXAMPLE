@@ -1,0 +1,16 @@
+EXAMPLE CODE:
+
+func HelloWorld() -> void:
+  print("Hello World!")
+
+----------------------------------------------
+func factorial(n:int) -> int:
+  if(n<=1)
+    return 1
+  else:
+    return n * factorial(n -1)
+
+func main():
+  result is factorial(5)  // result = factorial
+  print("Factorial of 5 is: %d", result)
+-----------------------------------------------
