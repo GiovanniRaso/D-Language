@@ -1,4 +1,5 @@
 import ply.lex as lex
+from dsharp_tokens import tokens
 
 tokens = (
     'IDENTIFIER',
