@@ -32,7 +32,7 @@ t_RIGHT_ARROW = r'->'
 t_LEFT_ARROW = r'<-'
 
 reserved = {
-    'function': 'FUNCTION',
+    'func': 'FUNCTION',
     'if': 'IF',
     'else': 'ELSE',
     'for': 'FOR',
@@ -76,7 +76,7 @@ def t_newline(t):
 t_ignore  = ' \t'
 
 def t_RESERVED(t):
-    r'\b(?:function|if|else|for|while|return|var|const|true|false)\b'
+    r'\b(?:func|if|else|for|while|return|var|const|true|false)\b'
     t.type = reserved.get(t.value,'IDENTIFIER')    # Check for reserved words
     return t
 
