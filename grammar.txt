@@ -1,0 +1,9 @@
+Program -> Statements
+Statements -> Statement Statements | ε
+Statement -> VarDeclaration | Assignment | PrintStatement
+VarDeclaration -> 'var' IDENTIFIER '=' Expression ';'
+Assignment -> IDENTIFIER '=' Expression ';'
+PrintStatement -> 'print' '(' Expression ')' ';'
+Expression -> Term (('+'|'-') Term)*
+Term -> Factor (('*'|'/') Factor)*
+Factor -> INTEGER | IDENTIFIER | '(' Expression ')'

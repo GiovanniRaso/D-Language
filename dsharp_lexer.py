@@ -91,12 +91,12 @@ def tokenize_input(input_text):
     for tok in lexer:
         print(tok)
 
-if __name__ == "__main__":
-    while True:
-        try:
-            s = input('D# > ')
-        except EOFError:
-            break  # Exit the loop if EOF signal is received (Ctrl+D/Ctrl+Z)
-        if not s: 
-            continue  # Continue looping if empty input is received
-        tokenize_input(s)
+#if __name__ == "__main__":
+#   while True:
+#        try:
+#            s = input('D# > ')
+#        except EOFError:
+#            break  # Exit the loop if EOF signal is received (Ctrl+D/Ctrl+Z)
+#        if not s: 
+#            continue  # Continue looping if empty input is received
+#        tokenize_input(s)
