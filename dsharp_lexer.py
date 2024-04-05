@@ -47,6 +47,7 @@ reserved = {
 
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value.lower(), 'IDENTIFIER')  # Change to 't.value' if case-sensitive
     return t
 
 def t_INTEGER(t):

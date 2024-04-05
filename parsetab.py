@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightUMINUSAND ASSIGN BOOLEAN COLON COMMA CONST DIVIDE DOT ELSE EQUAL FALSE FLOAT FOR FUNCTION GREATER_THAN GREATER_THAN_OR_EQUAL IDENTIFIER IF INTEGER LEFT_ARROW LEFT_CURLY_BRACE LEFT_SQUARE_BRACKET LESS_THAN LESS_THAN_OR_EQUAL LPREN MINUS MODULUS NOT NOT_EQUAL OR PLUS PRINT RETURN RIGHT_ARROW RIGHT_CURLY_BRACE RIGHT_SQUARE_BRACKET RPREN SEMICOLON STRING TIMES TRUE VAR WHILEexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : LPREN expression RPRENexpression : MINUS expression %prec UMINUSexpression : INTEGER\n                  | FLOAT'
+_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightUMINUSAND ASSIGN BOOLEAN COLON COMMA CONST DIVIDE DOT ELSE EQUAL FALSE FLOAT FOR FUNCTION GREATER_THAN GREATER_THAN_OR_EQUAL IDENTIFIER IF INTEGER LEFT_ARROW LEFT_CURLY_BRACE LEFT_SQUARE_BRACKET LESS_THAN LESS_THAN_OR_EQUAL LPREN MINUS MODULUS NOT NOT_EQUAL OR PLUS PRINT RETURN RIGHT_ARROW RIGHT_CURLY_BRACE RIGHT_SQUARE_BRACKET RPREN SEMICOLON STRING TIMES TRUE VAR WHILEprogram : statement\n               | program statementstatement : var_declaration\n                 | expressionvar_declaration : VAR IDENTIFIER ASSIGN expression SEMICOLONexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : MINUS expression %prec UMINUSexpression : LPREN expression RPRENexpression : INTEGER\n                  | FLOATexpression : IDENTIFIER'
     
-_lr_action_items = {'LPREN':([0,2,3,6,7,8,9,],[3,3,3,3,3,3,3,]),'MINUS':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,],[2,7,2,2,-7,-8,2,2,2,2,-6,7,-1,-2,-3,-4,-5,]),'INTEGER':([0,2,3,6,7,8,9,],[4,4,4,4,4,4,4,]),'FLOAT':([0,2,3,6,7,8,9,],[5,5,5,5,5,5,5,]),'$end':([1,4,5,10,12,13,14,15,16,],[0,-7,-8,-6,-1,-2,-3,-4,-5,]),'PLUS':([1,4,5,10,11,12,13,14,15,16,],[6,-7,-8,-6,6,-1,-2,-3,-4,-5,]),'TIMES':([1,4,5,10,11,12,13,14,15,16,],[8,-7,-8,-6,8,8,8,-3,-4,-5,]),'DIVIDE':([1,4,5,10,11,12,13,14,15,16,],[9,-7,-8,-6,9,9,9,-3,-4,-5,]),'RPREN':([4,5,10,11,12,13,14,15,16,],[-7,-8,-6,16,-1,-2,-3,-4,-5,]),}
+_lr_action_items = {'VAR':([0,1,2,3,4,6,9,10,11,17,19,20,21,22,24,26,],[5,5,-1,-3,-4,-14,-12,-13,-2,-10,-6,-7,-8,-9,-11,-5,]),'MINUS':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,],[7,7,-1,-3,13,-14,7,7,-12,-13,-2,7,7,7,7,-10,13,-6,-7,-8,-9,7,-11,13,-5,]),'LPREN':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[8,8,-1,-3,-4,-14,8,8,-12,-13,-2,8,8,8,8,-10,-6,-7,-8,-9,8,-11,-5,]),'INTEGER':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[9,9,-1,-3,-4,-14,9,9,-12,-13,-2,9,9,9,9,-10,-6,-7,-8,-9,9,-11,-5,]),'FLOAT':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[10,10,-1,-3,-4,-14,10,10,-12,-13,-2,10,10,10,10,-10,-6,-7,-8,-9,10,-11,-5,]),'IDENTIFIER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[6,6,-1,-3,-4,16,-14,6,6,-12,-13,-2,6,6,6,6,-10,-6,-7,-8,-9,6,-11,-5,]),'$end':([1,2,3,4,6,9,10,11,17,19,20,21,22,24,26,],[0,-1,-3,-4,-14,-12,-13,-2,-10,-6,-7,-8,-9,-11,-5,]),'PLUS':([4,6,9,10,17,18,19,20,21,22,24,25,],[12,-14,-12,-13,-10,12,-6,-7,-8,-9,-11,12,]),'TIMES':([4,6,9,10,17,18,19,20,21,22,24,25,],[14,-14,-12,-13,-10,14,14,14,-8,-9,-11,14,]),'DIVIDE':([4,6,9,10,17,18,19,20,21,22,24,25,],[15,-14,-12,-13,-10,15,15,15,-8,-9,-11,15,]),'RPREN':([6,9,10,17,18,19,20,21,22,24,],[-14,-12,-13,-10,24,-6,-7,-8,-9,-11,]),'SEMICOLON':([6,9,10,17,19,20,21,22,24,25,],[-14,-12,-13,-10,-6,-7,-8,-9,-11,26,]),'ASSIGN':([16,],[23,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expression':([0,2,3,6,7,8,9,],[1,10,11,12,13,14,15,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement':([0,1,],[2,11,]),'var_declaration':([0,1,],[3,3,]),'expression':([0,1,7,8,12,13,14,15,23,],[4,4,17,18,19,20,21,22,25,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,13 +26,19 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> expression","S'",1,None,None,None),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','dsharp_parser.py',14),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','dsharp_parser.py',15),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','dsharp_parser.py',16),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','dsharp_parser.py',17),
-  ('expression -> LPREN expression RPREN','expression',3,'p_expression_group','dsharp_parser.py',24),
-  ('expression -> MINUS expression','expression',2,'p_expression_uminus','dsharp_parser.py',28),
-  ('expression -> INTEGER','expression',1,'p_expression_number','dsharp_parser.py',32),
-  ('expression -> FLOAT','expression',1,'p_expression_number','dsharp_parser.py',33),
+  ("S' -> program","S'",1,None,None,None),
+  ('program -> statement','program',1,'p_program','dsharp_parser.py',15),
+  ('program -> program statement','program',2,'p_program','dsharp_parser.py',16),
+  ('statement -> var_declaration','statement',1,'p_statement','dsharp_parser.py',23),
+  ('statement -> expression','statement',1,'p_statement','dsharp_parser.py',24),
+  ('var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON','var_declaration',5,'p_var_declaration','dsharp_parser.py',29),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','dsharp_parser.py',35),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','dsharp_parser.py',36),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','dsharp_parser.py',37),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','dsharp_parser.py',38),
+  ('expression -> MINUS expression','expression',2,'p_expression_uminus','dsharp_parser.py',46),
+  ('expression -> LPREN expression RPREN','expression',3,'p_expression_group','dsharp_parser.py',51),
+  ('expression -> INTEGER','expression',1,'p_expression_number','dsharp_parser.py',56),
+  ('expression -> FLOAT','expression',1,'p_expression_number','dsharp_parser.py',57),
+  ('expression -> IDENTIFIER','expression',1,'p_expression_identifier','dsharp_parser.py',62),
 ]

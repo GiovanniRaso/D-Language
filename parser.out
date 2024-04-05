@@ -3,7 +3,6 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     AND
-    ASSIGN
     BOOLEAN
     COLON
     COMMA
@@ -16,7 +15,6 @@ Unused terminals:
     FUNCTION
     GREATER_THAN
     GREATER_THAN_OR_EQUAL
-    IDENTIFIER
     IF
     LEFT_ARROW
     LEFT_CURLY_BRACE
@@ -32,376 +30,615 @@ Unused terminals:
     RIGHT_ARROW
     RIGHT_CURLY_BRACE
     RIGHT_SQUARE_BRACKET
-    SEMICOLON
     STRING
     TRUE
-    VAR
     WHILE
 
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> expression PLUS expression
-Rule 2     expression -> expression MINUS expression
-Rule 3     expression -> expression TIMES expression
-Rule 4     expression -> expression DIVIDE expression
-Rule 5     expression -> LPREN expression RPREN
-Rule 6     expression -> MINUS expression
-Rule 7     expression -> INTEGER
-Rule 8     expression -> FLOAT
+Rule 0     S' -> program
+Rule 1     program -> statement
+Rule 2     program -> program statement
+Rule 3     statement -> var_declaration
+Rule 4     statement -> expression
+Rule 5     var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON
+Rule 6     expression -> expression PLUS expression
+Rule 7     expression -> expression MINUS expression
+Rule 8     expression -> expression TIMES expression
+Rule 9     expression -> expression DIVIDE expression
+Rule 10    expression -> MINUS expression
+Rule 11    expression -> LPREN expression RPREN
+Rule 12    expression -> INTEGER
+Rule 13    expression -> FLOAT
+Rule 14    expression -> IDENTIFIER
 
 Terminals, with rules where they appear
 
 AND                  : 
-ASSIGN               : 
+ASSIGN               : 5
 BOOLEAN              : 
 COLON                : 
 COMMA                : 
 CONST                : 
-DIVIDE               : 4
+DIVIDE               : 9
 DOT                  : 
 ELSE                 : 
 EQUAL                : 
 FALSE                : 
-FLOAT                : 8
+FLOAT                : 13
 FOR                  : 
 FUNCTION             : 
 GREATER_THAN         : 
 GREATER_THAN_OR_EQUAL : 
-IDENTIFIER           : 
+IDENTIFIER           : 5 14
 IF                   : 
-INTEGER              : 7
+INTEGER              : 12
 LEFT_ARROW           : 
 LEFT_CURLY_BRACE     : 
 LEFT_SQUARE_BRACKET  : 
 LESS_THAN            : 
 LESS_THAN_OR_EQUAL   : 
-LPREN                : 5
-MINUS                : 2 6
+LPREN                : 11
+MINUS                : 7 10
 MODULUS              : 
 NOT                  : 
 NOT_EQUAL            : 
 OR                   : 
-PLUS                 : 1
+PLUS                 : 6
 PRINT                : 
 RETURN               : 
 RIGHT_ARROW          : 
 RIGHT_CURLY_BRACE    : 
 RIGHT_SQUARE_BRACKET : 
-RPREN                : 5
-SEMICOLON            : 
+RPREN                : 11
+SEMICOLON            : 5
 STRING               : 
-TIMES                : 3
+TIMES                : 8
 TRUE                 : 
-VAR                  : 
+VAR                  : 5
 WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 1 2 2 3 3 4 4 5 6 0
+expression           : 4 5 6 6 7 7 8 8 9 9 10 11
+program              : 2 0
+statement            : 1 2
+var_declaration      : 3
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (0) S' -> . program
+    (1) program -> . statement
+    (2) program -> . program statement
+    (3) statement -> . var_declaration
+    (4) statement -> . expression
+    (5) var_declaration -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    VAR             shift and go to state 5
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-    expression                     shift and go to state 1
+    program                        shift and go to state 1
+    statement                      shift and go to state 2
+    var_declaration                shift and go to state 3
+    expression                     shift and go to state 4
 
 state 1
 
-    (0) S' -> expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (0) S' -> program .
+    (2) program -> program . statement
+    (3) statement -> . var_declaration
+    (4) statement -> . expression
+    (5) var_declaration -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    PLUS            shift and go to state 6
+    VAR             shift and go to state 5
     MINUS           shift and go to state 7
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
+    statement                      shift and go to state 11
+    var_declaration                shift and go to state 3
+    expression                     shift and go to state 4
 
 state 2
 
-    (6) expression -> MINUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (1) program -> statement .
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    VAR             reduce using rule 1 (program -> statement .)
+    MINUS           reduce using rule 1 (program -> statement .)
+    LPREN           reduce using rule 1 (program -> statement .)
+    INTEGER         reduce using rule 1 (program -> statement .)
+    FLOAT           reduce using rule 1 (program -> statement .)
+    IDENTIFIER      reduce using rule 1 (program -> statement .)
+    $end            reduce using rule 1 (program -> statement .)
 
-    expression                     shift and go to state 10
 
 state 3
 
-    (5) expression -> LPREN . expression RPREN
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (3) statement -> var_declaration .
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    VAR             reduce using rule 3 (statement -> var_declaration .)
+    MINUS           reduce using rule 3 (statement -> var_declaration .)
+    LPREN           reduce using rule 3 (statement -> var_declaration .)
+    INTEGER         reduce using rule 3 (statement -> var_declaration .)
+    FLOAT           reduce using rule 3 (statement -> var_declaration .)
+    IDENTIFIER      reduce using rule 3 (statement -> var_declaration .)
+    $end            reduce using rule 3 (statement -> var_declaration .)
 
-    expression                     shift and go to state 11
 
 state 4
 
-    (7) expression -> INTEGER .
+    (4) statement -> expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
 
-    PLUS            reduce using rule 7 (expression -> INTEGER .)
-    MINUS           reduce using rule 7 (expression -> INTEGER .)
-    TIMES           reduce using rule 7 (expression -> INTEGER .)
-    DIVIDE          reduce using rule 7 (expression -> INTEGER .)
-    $end            reduce using rule 7 (expression -> INTEGER .)
-    RPREN           reduce using rule 7 (expression -> INTEGER .)
+  ! shift/reduce conflict for MINUS resolved as shift
+    VAR             reduce using rule 4 (statement -> expression .)
+    LPREN           reduce using rule 4 (statement -> expression .)
+    INTEGER         reduce using rule 4 (statement -> expression .)
+    FLOAT           reduce using rule 4 (statement -> expression .)
+    IDENTIFIER      reduce using rule 4 (statement -> expression .)
+    $end            reduce using rule 4 (statement -> expression .)
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+  ! MINUS           [ reduce using rule 4 (statement -> expression .) ]
 
 
 state 5
 
-    (8) expression -> FLOAT .
+    (5) var_declaration -> VAR . IDENTIFIER ASSIGN expression SEMICOLON
 
-    PLUS            reduce using rule 8 (expression -> FLOAT .)
-    MINUS           reduce using rule 8 (expression -> FLOAT .)
-    TIMES           reduce using rule 8 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 8 (expression -> FLOAT .)
-    $end            reduce using rule 8 (expression -> FLOAT .)
-    RPREN           reduce using rule 8 (expression -> FLOAT .)
+    IDENTIFIER      shift and go to state 16
 
 
 state 6
 
-    (1) expression -> expression PLUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (14) expression -> IDENTIFIER .
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    PLUS            reduce using rule 14 (expression -> IDENTIFIER .)
+    MINUS           reduce using rule 14 (expression -> IDENTIFIER .)
+    TIMES           reduce using rule 14 (expression -> IDENTIFIER .)
+    DIVIDE          reduce using rule 14 (expression -> IDENTIFIER .)
+    VAR             reduce using rule 14 (expression -> IDENTIFIER .)
+    LPREN           reduce using rule 14 (expression -> IDENTIFIER .)
+    INTEGER         reduce using rule 14 (expression -> IDENTIFIER .)
+    FLOAT           reduce using rule 14 (expression -> IDENTIFIER .)
+    IDENTIFIER      reduce using rule 14 (expression -> IDENTIFIER .)
+    $end            reduce using rule 14 (expression -> IDENTIFIER .)
+    RPREN           reduce using rule 14 (expression -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 14 (expression -> IDENTIFIER .)
 
-    expression                     shift and go to state 12
 
 state 7
 
-    (2) expression -> expression MINUS . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (10) expression -> MINUS . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-    expression                     shift and go to state 13
+    expression                     shift and go to state 17
 
 state 8
 
-    (3) expression -> expression TIMES . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (11) expression -> LPREN . expression RPREN
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-    expression                     shift and go to state 14
+    expression                     shift and go to state 18
 
 state 9
 
-    (4) expression -> expression DIVIDE . expression
-    (1) expression -> . expression PLUS expression
-    (2) expression -> . expression MINUS expression
-    (3) expression -> . expression TIMES expression
-    (4) expression -> . expression DIVIDE expression
-    (5) expression -> . LPREN expression RPREN
-    (6) expression -> . MINUS expression
-    (7) expression -> . INTEGER
-    (8) expression -> . FLOAT
+    (12) expression -> INTEGER .
 
-    LPREN           shift and go to state 3
-    MINUS           shift and go to state 2
-    INTEGER         shift and go to state 4
-    FLOAT           shift and go to state 5
+    PLUS            reduce using rule 12 (expression -> INTEGER .)
+    MINUS           reduce using rule 12 (expression -> INTEGER .)
+    TIMES           reduce using rule 12 (expression -> INTEGER .)
+    DIVIDE          reduce using rule 12 (expression -> INTEGER .)
+    VAR             reduce using rule 12 (expression -> INTEGER .)
+    LPREN           reduce using rule 12 (expression -> INTEGER .)
+    INTEGER         reduce using rule 12 (expression -> INTEGER .)
+    FLOAT           reduce using rule 12 (expression -> INTEGER .)
+    IDENTIFIER      reduce using rule 12 (expression -> INTEGER .)
+    $end            reduce using rule 12 (expression -> INTEGER .)
+    RPREN           reduce using rule 12 (expression -> INTEGER .)
+    SEMICOLON       reduce using rule 12 (expression -> INTEGER .)
 
-    expression                     shift and go to state 15
 
 state 10
 
-    (6) expression -> MINUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (13) expression -> FLOAT .
 
-    PLUS            reduce using rule 6 (expression -> MINUS expression .)
-    MINUS           reduce using rule 6 (expression -> MINUS expression .)
-    TIMES           reduce using rule 6 (expression -> MINUS expression .)
-    DIVIDE          reduce using rule 6 (expression -> MINUS expression .)
-    $end            reduce using rule 6 (expression -> MINUS expression .)
-    RPREN           reduce using rule 6 (expression -> MINUS expression .)
-
-  ! PLUS            [ shift and go to state 6 ]
-  ! MINUS           [ shift and go to state 7 ]
-  ! TIMES           [ shift and go to state 8 ]
-  ! DIVIDE          [ shift and go to state 9 ]
+    PLUS            reduce using rule 13 (expression -> FLOAT .)
+    MINUS           reduce using rule 13 (expression -> FLOAT .)
+    TIMES           reduce using rule 13 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 13 (expression -> FLOAT .)
+    VAR             reduce using rule 13 (expression -> FLOAT .)
+    LPREN           reduce using rule 13 (expression -> FLOAT .)
+    INTEGER         reduce using rule 13 (expression -> FLOAT .)
+    FLOAT           reduce using rule 13 (expression -> FLOAT .)
+    IDENTIFIER      reduce using rule 13 (expression -> FLOAT .)
+    $end            reduce using rule 13 (expression -> FLOAT .)
+    RPREN           reduce using rule 13 (expression -> FLOAT .)
+    SEMICOLON       reduce using rule 13 (expression -> FLOAT .)
 
 
 state 11
 
-    (5) expression -> LPREN expression . RPREN
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (2) program -> program statement .
 
-    RPREN           shift and go to state 16
-    PLUS            shift and go to state 6
-    MINUS           shift and go to state 7
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
+    VAR             reduce using rule 2 (program -> program statement .)
+    MINUS           reduce using rule 2 (program -> program statement .)
+    LPREN           reduce using rule 2 (program -> program statement .)
+    INTEGER         reduce using rule 2 (program -> program statement .)
+    FLOAT           reduce using rule 2 (program -> program statement .)
+    IDENTIFIER      reduce using rule 2 (program -> program statement .)
+    $end            reduce using rule 2 (program -> program statement .)
 
 
 state 12
 
-    (1) expression -> expression PLUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (6) expression -> expression PLUS . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    PLUS            reduce using rule 1 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 1 (expression -> expression PLUS expression .)
-    $end            reduce using rule 1 (expression -> expression PLUS expression .)
-    RPREN           reduce using rule 1 (expression -> expression PLUS expression .)
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-  ! TIMES           [ reduce using rule 1 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 1 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 6 ]
-  ! MINUS           [ shift and go to state 7 ]
-
+    expression                     shift and go to state 19
 
 state 13
 
-    (2) expression -> expression MINUS expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (7) expression -> expression MINUS . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    PLUS            reduce using rule 2 (expression -> expression MINUS expression .)
-    MINUS           reduce using rule 2 (expression -> expression MINUS expression .)
-    $end            reduce using rule 2 (expression -> expression MINUS expression .)
-    RPREN           reduce using rule 2 (expression -> expression MINUS expression .)
-    TIMES           shift and go to state 8
-    DIVIDE          shift and go to state 9
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-  ! TIMES           [ reduce using rule 2 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 2 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 6 ]
-  ! MINUS           [ shift and go to state 7 ]
-
+    expression                     shift and go to state 20
 
 state 14
 
-    (3) expression -> expression TIMES expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (8) expression -> expression TIMES . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    PLUS            reduce using rule 3 (expression -> expression TIMES expression .)
-    MINUS           reduce using rule 3 (expression -> expression TIMES expression .)
-    TIMES           reduce using rule 3 (expression -> expression TIMES expression .)
-    DIVIDE          reduce using rule 3 (expression -> expression TIMES expression .)
-    $end            reduce using rule 3 (expression -> expression TIMES expression .)
-    RPREN           reduce using rule 3 (expression -> expression TIMES expression .)
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-  ! PLUS            [ shift and go to state 6 ]
-  ! MINUS           [ shift and go to state 7 ]
-  ! TIMES           [ shift and go to state 8 ]
-  ! DIVIDE          [ shift and go to state 9 ]
-
+    expression                     shift and go to state 21
 
 state 15
 
-    (4) expression -> expression DIVIDE expression .
-    (1) expression -> expression . PLUS expression
-    (2) expression -> expression . MINUS expression
-    (3) expression -> expression . TIMES expression
-    (4) expression -> expression . DIVIDE expression
+    (9) expression -> expression DIVIDE . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
 
-    PLUS            reduce using rule 4 (expression -> expression DIVIDE expression .)
-    MINUS           reduce using rule 4 (expression -> expression DIVIDE expression .)
-    TIMES           reduce using rule 4 (expression -> expression DIVIDE expression .)
-    DIVIDE          reduce using rule 4 (expression -> expression DIVIDE expression .)
-    $end            reduce using rule 4 (expression -> expression DIVIDE expression .)
-    RPREN           reduce using rule 4 (expression -> expression DIVIDE expression .)
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
 
-  ! PLUS            [ shift and go to state 6 ]
-  ! MINUS           [ shift and go to state 7 ]
-  ! TIMES           [ shift and go to state 8 ]
-  ! DIVIDE          [ shift and go to state 9 ]
-
+    expression                     shift and go to state 22
 
 state 16
 
-    (5) expression -> LPREN expression RPREN .
+    (5) var_declaration -> VAR IDENTIFIER . ASSIGN expression SEMICOLON
 
-    PLUS            reduce using rule 5 (expression -> LPREN expression RPREN .)
-    MINUS           reduce using rule 5 (expression -> LPREN expression RPREN .)
-    TIMES           reduce using rule 5 (expression -> LPREN expression RPREN .)
-    DIVIDE          reduce using rule 5 (expression -> LPREN expression RPREN .)
-    $end            reduce using rule 5 (expression -> LPREN expression RPREN .)
-    RPREN           reduce using rule 5 (expression -> LPREN expression RPREN .)
+    ASSIGN          shift and go to state 23
 
+
+state 17
+
+    (10) expression -> MINUS expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 10 (expression -> MINUS expression .)
+    MINUS           reduce using rule 10 (expression -> MINUS expression .)
+    TIMES           reduce using rule 10 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 10 (expression -> MINUS expression .)
+    VAR             reduce using rule 10 (expression -> MINUS expression .)
+    LPREN           reduce using rule 10 (expression -> MINUS expression .)
+    INTEGER         reduce using rule 10 (expression -> MINUS expression .)
+    FLOAT           reduce using rule 10 (expression -> MINUS expression .)
+    IDENTIFIER      reduce using rule 10 (expression -> MINUS expression .)
+    $end            reduce using rule 10 (expression -> MINUS expression .)
+    RPREN           reduce using rule 10 (expression -> MINUS expression .)
+    SEMICOLON       reduce using rule 10 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 12 ]
+  ! MINUS           [ shift and go to state 13 ]
+  ! TIMES           [ shift and go to state 14 ]
+  ! DIVIDE          [ shift and go to state 15 ]
+
+
+state 18
+
+    (11) expression -> LPREN expression . RPREN
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    RPREN           shift and go to state 24
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+
+state 19
+
+    (6) expression -> expression PLUS expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 6 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 6 (expression -> expression PLUS expression .)
+    VAR             reduce using rule 6 (expression -> expression PLUS expression .)
+    LPREN           reduce using rule 6 (expression -> expression PLUS expression .)
+    INTEGER         reduce using rule 6 (expression -> expression PLUS expression .)
+    FLOAT           reduce using rule 6 (expression -> expression PLUS expression .)
+    IDENTIFIER      reduce using rule 6 (expression -> expression PLUS expression .)
+    $end            reduce using rule 6 (expression -> expression PLUS expression .)
+    RPREN           reduce using rule 6 (expression -> expression PLUS expression .)
+    SEMICOLON       reduce using rule 6 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+  ! TIMES           [ reduce using rule 6 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 6 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 12 ]
+  ! MINUS           [ shift and go to state 13 ]
+
+
+state 20
+
+    (7) expression -> expression MINUS expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 7 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 7 (expression -> expression MINUS expression .)
+    VAR             reduce using rule 7 (expression -> expression MINUS expression .)
+    LPREN           reduce using rule 7 (expression -> expression MINUS expression .)
+    INTEGER         reduce using rule 7 (expression -> expression MINUS expression .)
+    FLOAT           reduce using rule 7 (expression -> expression MINUS expression .)
+    IDENTIFIER      reduce using rule 7 (expression -> expression MINUS expression .)
+    $end            reduce using rule 7 (expression -> expression MINUS expression .)
+    RPREN           reduce using rule 7 (expression -> expression MINUS expression .)
+    SEMICOLON       reduce using rule 7 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+  ! TIMES           [ reduce using rule 7 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 7 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 12 ]
+  ! MINUS           [ shift and go to state 13 ]
+
+
+state 21
+
+    (8) expression -> expression TIMES expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 8 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 8 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 8 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 8 (expression -> expression TIMES expression .)
+    VAR             reduce using rule 8 (expression -> expression TIMES expression .)
+    LPREN           reduce using rule 8 (expression -> expression TIMES expression .)
+    INTEGER         reduce using rule 8 (expression -> expression TIMES expression .)
+    FLOAT           reduce using rule 8 (expression -> expression TIMES expression .)
+    IDENTIFIER      reduce using rule 8 (expression -> expression TIMES expression .)
+    $end            reduce using rule 8 (expression -> expression TIMES expression .)
+    RPREN           reduce using rule 8 (expression -> expression TIMES expression .)
+    SEMICOLON       reduce using rule 8 (expression -> expression TIMES expression .)
+
+  ! PLUS            [ shift and go to state 12 ]
+  ! MINUS           [ shift and go to state 13 ]
+  ! TIMES           [ shift and go to state 14 ]
+  ! DIVIDE          [ shift and go to state 15 ]
+
+
+state 22
+
+    (9) expression -> expression DIVIDE expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 9 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 9 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 9 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 9 (expression -> expression DIVIDE expression .)
+    VAR             reduce using rule 9 (expression -> expression DIVIDE expression .)
+    LPREN           reduce using rule 9 (expression -> expression DIVIDE expression .)
+    INTEGER         reduce using rule 9 (expression -> expression DIVIDE expression .)
+    FLOAT           reduce using rule 9 (expression -> expression DIVIDE expression .)
+    IDENTIFIER      reduce using rule 9 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 9 (expression -> expression DIVIDE expression .)
+    RPREN           reduce using rule 9 (expression -> expression DIVIDE expression .)
+    SEMICOLON       reduce using rule 9 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 12 ]
+  ! MINUS           [ shift and go to state 13 ]
+  ! TIMES           [ shift and go to state 14 ]
+  ! DIVIDE          [ shift and go to state 15 ]
+
+
+state 23
+
+    (5) var_declaration -> VAR IDENTIFIER ASSIGN . expression SEMICOLON
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . MINUS expression
+    (11) expression -> . LPREN expression RPREN
+    (12) expression -> . INTEGER
+    (13) expression -> . FLOAT
+    (14) expression -> . IDENTIFIER
+
+    MINUS           shift and go to state 7
+    LPREN           shift and go to state 8
+    INTEGER         shift and go to state 9
+    FLOAT           shift and go to state 10
+    IDENTIFIER      shift and go to state 6
+
+    expression                     shift and go to state 25
+
+state 24
+
+    (11) expression -> LPREN expression RPREN .
+
+    PLUS            reduce using rule 11 (expression -> LPREN expression RPREN .)
+    MINUS           reduce using rule 11 (expression -> LPREN expression RPREN .)
+    TIMES           reduce using rule 11 (expression -> LPREN expression RPREN .)
+    DIVIDE          reduce using rule 11 (expression -> LPREN expression RPREN .)
+    VAR             reduce using rule 11 (expression -> LPREN expression RPREN .)
+    LPREN           reduce using rule 11 (expression -> LPREN expression RPREN .)
+    INTEGER         reduce using rule 11 (expression -> LPREN expression RPREN .)
+    FLOAT           reduce using rule 11 (expression -> LPREN expression RPREN .)
+    IDENTIFIER      reduce using rule 11 (expression -> LPREN expression RPREN .)
+    $end            reduce using rule 11 (expression -> LPREN expression RPREN .)
+    RPREN           reduce using rule 11 (expression -> LPREN expression RPREN .)
+    SEMICOLON       reduce using rule 11 (expression -> LPREN expression RPREN .)
+
+
+state 25
+
+    (5) var_declaration -> VAR IDENTIFIER ASSIGN expression . SEMICOLON
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+
+    SEMICOLON       shift and go to state 26
+    PLUS            shift and go to state 12
+    MINUS           shift and go to state 13
+    TIMES           shift and go to state 14
+    DIVIDE          shift and go to state 15
+
+
+state 26
+
+    (5) var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .
+
+    VAR             reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    MINUS           reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    LPREN           reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    INTEGER         reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    FLOAT           reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    IDENTIFIER      reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    $end            reduce using rule 5 (var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for MINUS in state 4 resolved as shift
