@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightUMINUSAND ASSIGN BOOLEAN COLON COMMA CONST DIVIDE DOT ELSE EQUAL FALSE FLOAT FOR FUNCTION GREATER_THAN GREATER_THAN_OR_EQUAL IDENTIFIER IF INTEGER LEFT_ARROW LEFT_CURLY_BRACE LEFT_SQUARE_BRACKET LESS_THAN LESS_THAN_OR_EQUAL LPREN MINUS MODULUS NOT NOT_EQUAL OR PLUS PRINT RETURN RIGHT_ARROW RIGHT_CURLY_BRACE RIGHT_SQUARE_BRACKET RPREN SEMICOLON STRING TIMES TRUE VAR WHILEprogram : statement\n               | program statementstatement : var_declaration\n                 | expressionvar_declaration : VAR IDENTIFIER ASSIGN expression SEMICOLONexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : MINUS expression %prec UMINUSexpression : LPREN expression RPRENexpression : INTEGER\n                  | FLOATexpression : IDENTIFIER'
+_lr_signature = 'AND ASSIGN BOOLEAN COLON COMMA CONST DIVIDE DOT ELSE EQUAL FALSE FLOAT FOR FUNCTION GREATER_THAN GREATER_THAN_OR_EQUAL IDENTIFIER IF INTEGER LEFT_ARROW LEFT_CURLY_BRACE LEFT_SQUARE_BRACKET LESS_THAN LESS_THAN_OR_EQUAL LPAREN MINUS MODULUS NOT NOT_EQUAL OR PLUS PRINT RETURN RIGHT_ARROW RIGHT_CURLY_BRACE RIGHT_SQUARE_BRACKET RPAREN SEMICOLON STRING TIMES TRUE VAR WHILEprogram : statement_list\n    statement_list : statement_list statement\n                   | statement\n    \n    statement : expression_statement\n              | compound_statement\n              | selection_statement\n              | iteration_statement\n              | assignment_statement\n              | declaration_statement\n    expression_statement : expression SEMICOLONcompound_statement : LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRACE\n    selection_statement : IF LPAREN expression RPAREN statement\n                        | IF LPAREN expression RPAREN statement ELSE statement\n    \n    iteration_statement : WHILE LPAREN expression RPAREN statement\n                        | FOR LPAREN expression_statement expression_statement expression RPAREN statement\n    assignment_statement : IDENTIFIER ASSIGN expression SEMICOLON\n    declaration_statement : VAR IDENTIFIER ASSIGN expression SEMICOLON\n                          | CONST IDENTIFIER ASSIGN expression SEMICOLON\n    \n    expression : expression PLUS expression\n               | expression MINUS expression\n               | expression TIMES expression\n               | expression DIVIDE expression\n               | INTEGER\n               | FLOAT\n               | STRING\n               | BOOLEAN\n               | IDENTIFIER\n    '
     
-_lr_action_items = {'VAR':([0,1,2,3,4,6,9,10,11,17,19,20,21,22,24,26,],[5,5,-1,-3,-4,-14,-12,-13,-2,-10,-6,-7,-8,-9,-11,-5,]),'MINUS':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,],[7,7,-1,-3,13,-14,7,7,-12,-13,-2,7,7,7,7,-10,13,-6,-7,-8,-9,7,-11,13,-5,]),'LPREN':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[8,8,-1,-3,-4,-14,8,8,-12,-13,-2,8,8,8,8,-10,-6,-7,-8,-9,8,-11,-5,]),'INTEGER':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[9,9,-1,-3,-4,-14,9,9,-12,-13,-2,9,9,9,9,-10,-6,-7,-8,-9,9,-11,-5,]),'FLOAT':([0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[10,10,-1,-3,-4,-14,10,10,-12,-13,-2,10,10,10,10,-10,-6,-7,-8,-9,10,-11,-5,]),'IDENTIFIER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,23,24,26,],[6,6,-1,-3,-4,16,-14,6,6,-12,-13,-2,6,6,6,6,-10,-6,-7,-8,-9,6,-11,-5,]),'$end':([1,2,3,4,6,9,10,11,17,19,20,21,22,24,26,],[0,-1,-3,-4,-14,-12,-13,-2,-10,-6,-7,-8,-9,-11,-5,]),'PLUS':([4,6,9,10,17,18,19,20,21,22,24,25,],[12,-14,-12,-13,-10,12,-6,-7,-8,-9,-11,12,]),'TIMES':([4,6,9,10,17,18,19,20,21,22,24,25,],[14,-14,-12,-13,-10,14,14,14,-8,-9,-11,14,]),'DIVIDE':([4,6,9,10,17,18,19,20,21,22,24,25,],[15,-14,-12,-13,-10,15,15,15,-8,-9,-11,15,]),'RPREN':([6,9,10,17,18,19,20,21,22,24,],[-14,-12,-13,-10,24,-6,-7,-8,-9,-11,]),'SEMICOLON':([6,9,10,17,19,20,21,22,24,25,],[-14,-12,-13,-10,-6,-7,-8,-9,-11,26,]),'ASSIGN':([16,],[23,]),}
+_lr_action_items = {'LEFT_CURLY_BRACE':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[11,11,-3,-4,-5,-6,-7,-8,-9,11,-2,-10,11,-11,11,11,-16,-12,-14,-17,-18,11,11,-13,-15,]),'IF':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[12,12,-3,-4,-5,-6,-7,-8,-9,12,-2,-10,12,-11,12,12,-16,-12,-14,-17,-18,12,12,-13,-15,]),'WHILE':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[13,13,-3,-4,-5,-6,-7,-8,-9,13,-2,-10,13,-11,13,13,-16,-12,-14,-17,-18,13,13,-13,-15,]),'FOR':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[14,14,-3,-4,-5,-6,-7,-8,-9,14,-2,-10,14,-11,14,14,-16,-12,-14,-17,-18,14,14,-13,-15,]),'IDENTIFIER':([0,2,3,4,5,6,7,8,9,11,16,17,22,23,24,25,26,27,28,29,30,31,32,40,43,45,46,47,48,49,50,53,54,56,57,58,59,60,61,],[15,15,-3,-4,-5,-6,-7,-8,-9,15,33,34,-2,-10,36,36,36,36,15,36,36,36,36,-11,36,36,36,15,15,36,-16,-12,-14,-17,-18,15,15,-13,-15,]),'VAR':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[16,16,-3,-4,-5,-6,-7,-8,-9,16,-2,-10,16,-11,16,16,-16,-12,-14,-17,-18,16,16,-13,-15,]),'CONST':([0,2,3,4,5,6,7,8,9,11,22,23,28,40,47,48,50,53,54,56,57,58,59,60,61,],[17,17,-3,-4,-5,-6,-7,-8,-9,17,-2,-10,17,-11,17,17,-16,-12,-14,-17,-18,17,17,-13,-15,]),'INTEGER':([0,2,3,4,5,6,7,8,9,11,22,23,24,25,26,27,28,29,30,31,32,40,43,45,46,47,48,49,50,53,54,56,57,58,59,60,61,],[18,18,-3,-4,-5,-6,-7,-8,-9,18,-2,-10,18,18,18,18,18,18,18,18,18,-11,18,18,18,18,18,18,-16,-12,-14,-17,-18,18,18,-13,-15,]),'FLOAT':([0,2,3,4,5,6,7,8,9,11,22,23,24,25,26,27,28,29,30,31,32,40,43,45,46,47,48,49,50,53,54,56,57,58,59,60,61,],[19,19,-3,-4,-5,-6,-7,-8,-9,19,-2,-10,19,19,19,19,19,19,19,19,19,-11,19,19,19,19,19,19,-16,-12,-14,-17,-18,19,19,-13,-15,]),'STRING':([0,2,3,4,5,6,7,8,9,11,22,23,24,25,26,27,28,29,30,31,32,40,43,45,46,47,48,49,50,53,54,56,57,58,59,60,61,],[20,20,-3,-4,-5,-6,-7,-8,-9,20,-2,-10,20,20,20,20,20,20,20,20,20,-11,20,20,20,20,20,20,-16,-12,-14,-17,-18,20,20,-13,-15,]),'BOOLEAN':([0,2,3,4,5,6,7,8,9,11,22,23,24,25,26,27,28,29,30,31,32,40,43,45,46,47,48,49,50,53,54,56,57,58,59,60,61,],[21,21,-3,-4,-5,-6,-7,-8,-9,21,-2,-10,21,21,21,21,21,21,21,21,21,-11,21,21,21,21,21,21,-16,-12,-14,-17,-18,21,21,-13,-15,]),'$end':([1,2,3,4,5,6,7,8,9,22,23,40,50,53,54,56,57,60,61,],[0,-1,-3,-4,-5,-6,-7,-8,-9,-2,-10,-11,-16,-12,-14,-17,-18,-13,-15,]),'RIGHT_CURLY_BRACE':([3,4,5,6,7,8,9,22,23,28,40,50,53,54,56,57,60,61,],[-3,-4,-5,-6,-7,-8,-9,-2,-10,40,-11,-16,-12,-14,-17,-18,-13,-15,]),'ELSE':([4,5,6,7,8,9,23,40,50,53,54,56,57,60,61,],[-4,-5,-6,-7,-8,-9,-10,-11,-16,58,-14,-17,-18,-13,-15,]),'SEMICOLON':([10,15,18,19,20,21,35,36,37,38,39,44,51,52,],[23,-27,-23,-24,-25,-26,-19,-27,-20,-21,-22,50,56,57,]),'PLUS':([10,15,18,19,20,21,35,36,37,38,39,41,42,44,51,52,55,],[24,-27,-23,-24,-25,-26,24,-27,24,24,24,24,24,24,24,24,24,]),'MINUS':([10,15,18,19,20,21,35,36,37,38,39,41,42,44,51,52,55,],[25,-27,-23,-24,-25,-26,25,-27,25,25,25,25,25,25,25,25,25,]),'TIMES':([10,15,18,19,20,21,35,36,37,38,39,41,42,44,51,52,55,],[26,-27,-23,-24,-25,-26,26,-27,26,26,26,26,26,26,26,26,26,]),'DIVIDE':([10,15,18,19,20,21,35,36,37,38,39,41,42,44,51,52,55,],[27,-27,-23,-24,-25,-26,27,-27,27,27,27,27,27,27,27,27,27,]),'LPAREN':([12,13,14,],[29,30,31,]),'ASSIGN':([15,33,34,],[32,45,46,]),'RPAREN':([18,19,20,21,35,36,37,38,39,41,42,55,],[-23,-24,-25,-26,-19,-27,-20,-21,-22,47,48,59,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement':([0,1,],[2,11,]),'var_declaration':([0,1,],[3,3,]),'expression':([0,1,7,8,12,13,14,15,23,],[4,4,17,18,19,20,21,22,25,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,11,],[2,28,]),'statement':([0,2,11,28,47,48,58,59,],[3,22,3,22,53,54,60,61,]),'expression_statement':([0,2,11,28,31,43,47,48,58,59,],[4,4,4,4,43,49,4,4,4,4,]),'compound_statement':([0,2,11,28,47,48,58,59,],[5,5,5,5,5,5,5,5,]),'selection_statement':([0,2,11,28,47,48,58,59,],[6,6,6,6,6,6,6,6,]),'iteration_statement':([0,2,11,28,47,48,58,59,],[7,7,7,7,7,7,7,7,]),'assignment_statement':([0,2,11,28,47,48,58,59,],[8,8,8,8,8,8,8,8,]),'declaration_statement':([0,2,11,28,47,48,58,59,],[9,9,9,9,9,9,9,9,]),'expression':([0,2,11,24,25,26,27,28,29,30,31,32,43,45,46,47,48,49,58,59,],[10,10,10,35,37,38,39,10,41,42,10,44,10,51,52,10,10,55,10,10,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,18 +27,31 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> statement','program',1,'p_program','dsharp_parser.py',15),
-  ('program -> program statement','program',2,'p_program','dsharp_parser.py',16),
-  ('statement -> var_declaration','statement',1,'p_statement','dsharp_parser.py',23),
-  ('statement -> expression','statement',1,'p_statement','dsharp_parser.py',24),
-  ('var_declaration -> VAR IDENTIFIER ASSIGN expression SEMICOLON','var_declaration',5,'p_var_declaration','dsharp_parser.py',29),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','dsharp_parser.py',35),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','dsharp_parser.py',36),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','dsharp_parser.py',37),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','dsharp_parser.py',38),
-  ('expression -> MINUS expression','expression',2,'p_expression_uminus','dsharp_parser.py',46),
-  ('expression -> LPREN expression RPREN','expression',3,'p_expression_group','dsharp_parser.py',51),
-  ('expression -> INTEGER','expression',1,'p_expression_number','dsharp_parser.py',56),
-  ('expression -> FLOAT','expression',1,'p_expression_number','dsharp_parser.py',57),
-  ('expression -> IDENTIFIER','expression',1,'p_expression_identifier','dsharp_parser.py',62),
+  ('program -> statement_list','program',1,'p_program','d_pound.py',100),
+  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','d_pound.py',105),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','d_pound.py',106),
+  ('statement -> expression_statement','statement',1,'p_statement','d_pound.py',115),
+  ('statement -> compound_statement','statement',1,'p_statement','d_pound.py',116),
+  ('statement -> selection_statement','statement',1,'p_statement','d_pound.py',117),
+  ('statement -> iteration_statement','statement',1,'p_statement','d_pound.py',118),
+  ('statement -> assignment_statement','statement',1,'p_statement','d_pound.py',119),
+  ('statement -> declaration_statement','statement',1,'p_statement','d_pound.py',120),
+  ('expression_statement -> expression SEMICOLON','expression_statement',2,'p_expression_statement','d_pound.py',125),
+  ('compound_statement -> LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRACE','compound_statement',3,'p_compound_statement','d_pound.py',129),
+  ('selection_statement -> IF LPAREN expression RPAREN statement','selection_statement',5,'p_selection_statement','d_pound.py',134),
+  ('selection_statement -> IF LPAREN expression RPAREN statement ELSE statement','selection_statement',7,'p_selection_statement','d_pound.py',135),
+  ('iteration_statement -> WHILE LPAREN expression RPAREN statement','iteration_statement',5,'p_iteration_statement','d_pound.py',144),
+  ('iteration_statement -> FOR LPAREN expression_statement expression_statement expression RPAREN statement','iteration_statement',7,'p_iteration_statement','d_pound.py',145),
+  ('assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON','assignment_statement',4,'p_assignment_statement','d_pound.py',153),
+  ('declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON','declaration_statement',5,'p_declaration_statement','d_pound.py',158),
+  ('declaration_statement -> CONST IDENTIFIER ASSIGN expression SEMICOLON','declaration_statement',5,'p_declaration_statement','d_pound.py',159),
+  ('expression -> expression PLUS expression','expression',3,'p_expression','d_pound.py',165),
+  ('expression -> expression MINUS expression','expression',3,'p_expression','d_pound.py',166),
+  ('expression -> expression TIMES expression','expression',3,'p_expression','d_pound.py',167),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression','d_pound.py',168),
+  ('expression -> INTEGER','expression',1,'p_expression','d_pound.py',169),
+  ('expression -> FLOAT','expression',1,'p_expression','d_pound.py',170),
+  ('expression -> STRING','expression',1,'p_expression','d_pound.py',171),
+  ('expression -> BOOLEAN','expression',1,'p_expression','d_pound.py',172),
+  ('expression -> IDENTIFIER','expression',1,'p_expression','d_pound.py',173),
 ]
