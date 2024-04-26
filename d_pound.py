@@ -80,8 +80,11 @@ reserved = {
     "const" : "CONST",
     "print" : "PRINT",
     "true" : "TRUE",
-    "false" : "FALSE"
+    "false" : "FALSE",
+    "var" : "VAR"
 }
+
+t_ignore = ' \t'
 
 def t_newline(t):
     r'\n+'
@@ -141,13 +144,9 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     '''
-    iteration_statement : WHILE LPAREN expression RPAREN statement
-                        | FOR LPAREN expression_statement expression_statement expression RPAREN statement
+    iteration_statement : WHILE LPAREN expression RPAREN compound_statement 
     '''
-    if len(p) == 6:
-        p[0] = ('while', p[3], p[5])
-    else:
-        p[0] = ('for', p[3], p[4], p[5], p[7])
+    p[0] = ('while', p[3], p[5])
 
 def p_assignment_statement(p):
     'assignment_statement : IDENTIFIER ASSIGN expression SEMICOLON'
@@ -156,9 +155,8 @@ def p_assignment_statement(p):
 def p_declaration_statement(p):
     '''
     declaration_statement : VAR IDENTIFIER ASSIGN expression SEMICOLON
-                          | CONST IDENTIFIER ASSIGN expression SEMICOLON
     '''
-    p[0] = ('declare', p[1], p[2], p[4])
+    p[0] = ('declare', 'var', p[2], p[4])
 
 def p_expression(p):
     '''
@@ -186,12 +184,101 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc()
 
+#Interpreter
+
+memory = {}
+
+def interpret(ast):
+    """ Interpret the AST (Abstract Syntax Tree). """
+    if ast is None:
+        return None
+    if type(ast) == tuple:
+        op = ast[0]
+        if op == 'program':
+            return interpret_program(ast[1])
+        elif op == 'compound':
+            return interpret_compound(ast[1])
+        elif op == 'assign':
+            return interpret_assign(ast[1], ast[2])
+        elif op == 'expr':
+            return interpret_expression(ast[1])
+        elif op == 'binop':
+            return interpret_binop(ast[1], ast[2], ast[3])
+        elif op == 'declare':
+            return interpret_declare(ast[1], ast[2], ast[3])
+        elif op == 'if':
+            return interpret_if(ast[1], ast[2])
+        elif op == 'if-else':
+            return interpret_if_else(ast[1], ast[2], ast[3])
+        elif op == 'while':
+            return interpret_while(ast[1], ast[2])
+        elif op == 'value':
+            if isinstance(ast[1], str) and ast[1] in memory:
+                return memory[ast[1]]
+            return ast[1]
+    else:
+        return ast
+
+def interpret_program(statements):
+    for statement in statements:
+        result = interpret(statement)
+    return result
+
+def interpret_compound(statements):
+    for statement in statements:
+        interpret(statement)
+
+def interpret_assign(var, expr):
+    value = interpret(expr)
+    memory[var] = value
+    return value
+
+def interpret_expression(expr):
+    return interpret(expr)
+
+def interpret_binop(left, op, right):
+    left_val = interpret(left)
+    right_val = interpret(right)
+    if op == '+':
+        return left_val + right_val
+    elif op == '-':
+        return left_val - right_val
+    elif op == '*':
+        return left_val * right_val
+    elif op == '/':
+        return left_val / right_val
+    # Add other operators here
+
+def interpret_declare(kind, var, expr):
+    value = interpret(expr)
+    memory[var] = value
+    return value
+
+def interpret_if(condition, statement):
+    if interpret(condition):
+        return interpret(statement)
+    
+def interpret_if_else(condition, if_statement, else_statement):
+    if interpret(condition):
+        return interpret(if_statement)
+    else:
+        return interpret(else_statement)
+    
+def interpret_while(condition, statement):
+    while interpret(condition):
+        interpret(statement)
+
+
 if __name__ == "__main__":
     while True:
         try:
             s = input('D# > ')
         except EOFError:
             break
-        if not s: continue
-        result = parser.parse(s)
-        print(result)
+        if not s:
+            continue
+        result = parser.parse(s, lexer=lexer)
+        if result is not None:
+            print(interpret(result))
+        else:
+            print("Error in parsing.")
