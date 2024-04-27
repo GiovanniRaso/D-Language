@@ -17,32 +17,46 @@ tokens = (
 )
 
 
-t_PLUS    = r'add'
-t_MINUS   = r'sub'
-t_TIMES   = r'mult'
-t_DIVIDE  = r'div'
-t_MODULUS = r'mod'
-t_ASSIGN  = r'is'
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
+t_ASSIGN    = r'='
+t_PLUS      = r'\+'
+t_MINUS     = r'-'
+t_TIMES     = r'\*'
+t_DIVIDE    = r'/'
+t_MODULUS   = r'%'
+t_LPAREN    = r'\('
+t_RPAREN    = r'\)'
 t_LEFT_CURLY_BRACE = r'\{'
 t_RIGHT_CURLY_BRACE = r'\}'
 t_LEFT_SQUARE_BRACKET = r'\['
 t_RIGHT_SQUARE_BRACKET = r'\]'
-t_COMMA  = r','
+t_COMMA     = r','
 t_SEMICOLON = r';'
-t_COLON = r':'
-t_DOT = r'\.'
-t_EQUAL = r'equal'
-t_NOT_EQUAL = r'nequal'
-t_GREATER_THAN = r'gt'
-t_LESS_THAN = r'lt'
-t_GREATER_THAN_OR_EQUAL = r'gte'
-t_LESS_THAN_OR_EQUAL = r'lte'
-t_AND = r'and'
-t_OR = r'or'
-t_NOT = r'not'
+t_COLON     = r':'
+t_DOT       = r'\.'
+t_EQUAL     = r'=='
+t_NOT_EQUAL = r'!='
+t_GREATER_THAN = r'>'
+t_LESS_THAN = r'<'
+t_GREATER_THAN_OR_EQUAL = r'>='
+t_LESS_THAN_OR_EQUAL = r'<='
+t_AND       = r'&&'
+t_OR        = r'\|\|'
+t_NOT       = r'!'
 
+reserved = {
+    "if" : "IF",
+    "else" : "ELSE",
+    "for" : "FOR",
+    "while" : "WHILE",
+    "function" : "FUNCTION",
+    "return" : "RETURN",
+    "var" : "VAR",
+    "const" : "CONST",
+    "print" : "PRINT",
+    "true" : "TRUE",
+    "false" : "FALSE",
+    "var" : "VAR"
+}
 
 def t_FlOAT(t):
     r'\d+\.\d+'
@@ -65,24 +79,11 @@ def t_BOOLEAN(t):
     return t
 
 def t_IDENTIFIER(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value.lower(), 'IDENTIFIER')  # Ensure case insensitivity
     return t
 
-reserved = {
-    "if" : "IF",
-    "else" : "ELSE",
-    "for" : "FOR",
-    "while" : "WHILE",
-    "function" : "FUNCTION",
-    "return" : "RETURN",
-    "var" : "VAR",
-    "const" : "CONST",
-    "print" : "PRINT",
-    "true" : "TRUE",
-    "false" : "FALSE",
-    "var" : "VAR"
-}
+tokens += tuple(reserved.values())
 
 t_ignore = ' \t'
 
@@ -112,10 +113,15 @@ def p_statement_list(p):
         p[0] = p[1] + [p[2]]
     else:
         p[0] = [p[1]]
+        
+def p_print_statement(p):
+    'print_statement : PRINT expression SEMICOLON'
+    p[0] = ('print', p[2])
 
 def p_statement(p):
     '''
-    statement : expression_statement
+    statement : print_statement
+              | expression_statement
               | compound_statement
               | selection_statement
               | iteration_statement
@@ -144,9 +150,15 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     '''
-    iteration_statement : WHILE LPAREN expression RPAREN compound_statement 
+    iteration_statement : WHILE LPAREN expression RPAREN compound_statement
+                        | FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
     '''
-    p[0] = ('while', p[3], p[5])
+    if len(p) == 6:
+        p[0] = ('while', p[3], p[5])
+    else:
+        p[0] = ('for', p[3], p[4], p[5], p[7])
+
+
 
 def p_assignment_statement(p):
     'assignment_statement : IDENTIFIER ASSIGN expression SEMICOLON'
@@ -212,6 +224,10 @@ def interpret(ast):
             return interpret_if_else(ast[1], ast[2], ast[3])
         elif op == 'while':
             return interpret_while(ast[1], ast[2])
+        elif op == 'for':
+            return interpret_for(ast[1], ast[2], ast[3], ast[4])
+        elif op == 'print':  # Handle 'print' operation
+            print(interpret(ast[1]))
         elif op == 'value':
             if isinstance(ast[1], str) and ast[1] in memory:
                 return memory[ast[1]]
@@ -234,7 +250,13 @@ def interpret_assign(var, expr):
     return value
 
 def interpret_expression(expr):
-    return interpret(expr)
+    if expr[0] == 'value':
+        return expr[1]  # Direct value
+    elif expr[0] == 'binop':
+        return interpret_binop(expr[1], expr[2], expr[3])
+
+def interpret_print(value):
+    print(interpret(value))
 
 def interpret_binop(left, op, right):
     left_val = interpret(left)
@@ -267,6 +289,12 @@ def interpret_if_else(condition, if_statement, else_statement):
 def interpret_while(condition, statement):
     while interpret(condition):
         interpret(statement)
+        
+def interpret_for(assign, condition, update, statement):
+    interpret(assign)
+    while interpret(condition):
+        interpret(statement)
+        interpret(update)
 
 
 if __name__ == "__main__":
@@ -278,7 +306,7 @@ if __name__ == "__main__":
         if not s:
             continue
         result = parser.parse(s, lexer=lexer)
-        if result is not None:
-            print(interpret(result))
-        else:
-            print("Error in parsing.")
+        if result is not None:  # Interpret and check if there's something to print
+            output = interpret(result)
+            if output is not None:
+                print(output)
