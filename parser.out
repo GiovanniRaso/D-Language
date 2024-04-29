@@ -6,13 +6,17 @@ Unused terminals:
     COLON
     COMMA
     CONST
+    DECREMENT
     DOT
+    EQUAL_TO
     FALSE
     FUNCTION
+    INCREMENT
     LEFT_ARROW
     LEFT_SQUARE_BRACKET
     MODULUS
     NOT
+    NOT_EQUAL_TO
     OR
     RETURN
     RIGHT_ARROW
@@ -38,7 +42,7 @@ Rule 13    compound_statement -> LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRA
 Rule 14    selection_statement -> IF expression THEN compound_statement
 Rule 15    selection_statement -> IF expression THEN compound_statement ELSE compound_statement
 Rule 16    iteration_statement -> WHILE LPAREN expression RPAREN compound_statement
-Rule 17    iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+Rule 17    iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
 Rule 18    assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON
 Rule 19    declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON
 Rule 20    expression -> expression PLUS expression
@@ -65,10 +69,12 @@ BOOLEAN              : 33
 COLON                : 
 COMMA                : 
 CONST                : 
+DECREMENT            : 
 DIVIDE               : 23
 DOT                  : 
 ELSE                 : 15
 EQUAL                : 24
+EQUAL_TO             : 
 FALSE                : 
 FLOAT                : 31
 FOR                  : 17
@@ -77,6 +83,7 @@ GREATER_THAN         : 26
 GREATER_THAN_OR_EQUAL : 28
 IDENTIFIER           : 18 19 34
 IF                   : 14 15
+INCREMENT            : 
 INTEGER              : 30
 LEFT_ARROW           : 
 LEFT_CURLY_BRACE     : 13
@@ -88,6 +95,7 @@ MINUS                : 21
 MODULUS              : 
 NOT                  : 
 NOT_EQUAL            : 25
+NOT_EQUAL_TO         : 
 OR                   : 
 PLUS                 : 20
 PRINT                : 4
@@ -96,7 +104,7 @@ RIGHT_ARROW          :
 RIGHT_CURLY_BRACE    : 13
 RIGHT_SQUARE_BRACKET : 
 RPAREN               : 16 17
-SEMICOLON            : 4 12 17 18 19
+SEMICOLON            : 4 12 17 17 18 19
 STRING               : 32
 THEN                 : 14 15
 TIMES                : 22
@@ -107,10 +115,10 @@ error                :
 
 Nonterminals, with rules where they appear
 
-assignment_statement : 10 17
+assignment_statement : 10
 compound_statement   : 7 14 15 15 16 17
 declaration_statement : 11
-expression           : 4 12 14 15 16 17 17 18 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29
+expression           : 4 12 14 15 16 17 17 17 18 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29
 expression_statement : 6
 iteration_statement  : 9
 print_statement      : 5
@@ -140,7 +148,7 @@ state 0
     (14) selection_statement -> . IF expression THEN compound_statement
     (15) selection_statement -> . IF expression THEN compound_statement ELSE compound_statement
     (16) iteration_statement -> . WHILE LPAREN expression RPAREN compound_statement
-    (17) iteration_statement -> . FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+    (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
     (20) expression -> . expression PLUS expression
@@ -206,7 +214,7 @@ state 2
     (14) selection_statement -> . IF expression THEN compound_statement
     (15) selection_statement -> . IF expression THEN compound_statement ELSE compound_statement
     (16) iteration_statement -> . WHILE LPAREN expression RPAREN compound_statement
-    (17) iteration_statement -> . FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+    (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
     (20) expression -> . expression PLUS expression
@@ -472,7 +480,7 @@ state 13
     (14) selection_statement -> . IF expression THEN compound_statement
     (15) selection_statement -> . IF expression THEN compound_statement ELSE compound_statement
     (16) iteration_statement -> . WHILE LPAREN expression RPAREN compound_statement
-    (17) iteration_statement -> . FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+    (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
     (20) expression -> . expression PLUS expression
@@ -551,7 +559,7 @@ state 15
 
 state 16
 
-    (17) iteration_statement -> FOR . LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+    (17) iteration_statement -> FOR . LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
 
     LPAREN          shift and go to state 40
 
@@ -1029,7 +1037,7 @@ state 37
     (14) selection_statement -> . IF expression THEN compound_statement
     (15) selection_statement -> . IF expression THEN compound_statement ELSE compound_statement
     (16) iteration_statement -> . WHILE LPAREN expression RPAREN compound_statement
-    (17) iteration_statement -> . FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+    (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
     (20) expression -> . expression PLUS expression
@@ -1128,12 +1136,30 @@ state 39
 
 state 40
 
-    (17) iteration_statement -> FOR LPAREN . assignment_statement expression SEMICOLON expression RPAREN compound_statement
-    (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (17) iteration_statement -> FOR LPAREN . expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
+    (20) expression -> . expression PLUS expression
+    (21) expression -> . expression MINUS expression
+    (22) expression -> . expression TIMES expression
+    (23) expression -> . expression DIVIDE expression
+    (24) expression -> . expression EQUAL expression
+    (25) expression -> . expression NOT_EQUAL expression
+    (26) expression -> . expression GREATER_THAN expression
+    (27) expression -> . expression LESS_THAN expression
+    (28) expression -> . expression GREATER_THAN_OR_EQUAL expression
+    (29) expression -> . expression LESS_THAN_OR_EQUAL expression
+    (30) expression -> . INTEGER
+    (31) expression -> . FLOAT
+    (32) expression -> . STRING
+    (33) expression -> . BOOLEAN
+    (34) expression -> . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 58
+    INTEGER         shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOLEAN         shift and go to state 22
+    IDENTIFIER      shift and go to state 25
 
-    assignment_statement           shift and go to state 57
+    expression                     shift and go to state 57
 
 state 41
 
@@ -1160,13 +1186,13 @@ state 41
     BOOLEAN         shift and go to state 22
     IDENTIFIER      shift and go to state 25
 
-    expression                     shift and go to state 59
+    expression                     shift and go to state 58
 
 state 42
 
     (19) declaration_statement -> VAR IDENTIFIER . ASSIGN expression SEMICOLON
 
-    ASSIGN          shift and go to state 60
+    ASSIGN          shift and go to state 59
 
 
 state 43
@@ -1716,7 +1742,7 @@ state 55
 
     LEFT_CURLY_BRACE shift and go to state 13
 
-    compound_statement             shift and go to state 61
+    compound_statement             shift and go to state 60
 
 state 56
 
@@ -1732,7 +1758,7 @@ state 56
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-    RPAREN          shift and go to state 62
+    RPAREN          shift and go to state 61
     PLUS            shift and go to state 27
     MINUS           shift and go to state 28
     TIMES           shift and go to state 29
@@ -1747,39 +1773,32 @@ state 56
 
 state 57
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement . expression SEMICOLON expression RPAREN compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
-    (24) expression -> . expression EQUAL expression
-    (25) expression -> . expression NOT_EQUAL expression
-    (26) expression -> . expression GREATER_THAN expression
-    (27) expression -> . expression LESS_THAN expression
-    (28) expression -> . expression GREATER_THAN_OR_EQUAL expression
-    (29) expression -> . expression LESS_THAN_OR_EQUAL expression
-    (30) expression -> . INTEGER
-    (31) expression -> . FLOAT
-    (32) expression -> . STRING
-    (33) expression -> . BOOLEAN
-    (34) expression -> . IDENTIFIER
+    (17) iteration_statement -> FOR LPAREN expression . SEMICOLON expression SEMICOLON expression RPAREN compound_statement
+    (20) expression -> expression . PLUS expression
+    (21) expression -> expression . MINUS expression
+    (22) expression -> expression . TIMES expression
+    (23) expression -> expression . DIVIDE expression
+    (24) expression -> expression . EQUAL expression
+    (25) expression -> expression . NOT_EQUAL expression
+    (26) expression -> expression . GREATER_THAN expression
+    (27) expression -> expression . LESS_THAN expression
+    (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
+    (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-    INTEGER         shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
-    BOOLEAN         shift and go to state 22
-    IDENTIFIER      shift and go to state 25
+    SEMICOLON       shift and go to state 62
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    TIMES           shift and go to state 29
+    DIVIDE          shift and go to state 30
+    EQUAL           shift and go to state 31
+    NOT_EQUAL       shift and go to state 32
+    GREATER_THAN    shift and go to state 33
+    LESS_THAN       shift and go to state 34
+    GREATER_THAN_OR_EQUAL shift and go to state 35
+    LESS_THAN_OR_EQUAL shift and go to state 36
 
-    expression                     shift and go to state 63
 
 state 58
-
-    (18) assignment_statement -> IDENTIFIER . ASSIGN expression SEMICOLON
-
-    ASSIGN          shift and go to state 41
-
-
-state 59
 
     (18) assignment_statement -> IDENTIFIER ASSIGN expression . SEMICOLON
     (20) expression -> expression . PLUS expression
@@ -1793,7 +1812,7 @@ state 59
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-    SEMICOLON       shift and go to state 64
+    SEMICOLON       shift and go to state 63
     PLUS            shift and go to state 27
     MINUS           shift and go to state 28
     TIMES           shift and go to state 29
@@ -1806,7 +1825,7 @@ state 59
     LESS_THAN_OR_EQUAL shift and go to state 36
 
 
-state 60
+state 59
 
     (19) declaration_statement -> VAR IDENTIFIER ASSIGN . expression SEMICOLON
     (20) expression -> . expression PLUS expression
@@ -1831,9 +1850,9 @@ state 60
     BOOLEAN         shift and go to state 22
     IDENTIFIER      shift and go to state 25
 
-    expression                     shift and go to state 65
+    expression                     shift and go to state 64
 
-state 61
+state 60
 
     (14) selection_statement -> IF expression THEN compound_statement .
     (15) selection_statement -> IF expression THEN compound_statement . ELSE compound_statement
@@ -1851,21 +1870,67 @@ state 61
     BOOLEAN         reduce using rule 14 (selection_statement -> IF expression THEN compound_statement .)
     $end            reduce using rule 14 (selection_statement -> IF expression THEN compound_statement .)
     RIGHT_CURLY_BRACE reduce using rule 14 (selection_statement -> IF expression THEN compound_statement .)
-    ELSE            shift and go to state 66
+    ELSE            shift and go to state 65
 
 
-state 62
+state 61
 
     (16) iteration_statement -> WHILE LPAREN expression RPAREN . compound_statement
     (13) compound_statement -> . LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRACE
 
     LEFT_CURLY_BRACE shift and go to state 13
 
-    compound_statement             shift and go to state 67
+    compound_statement             shift and go to state 66
+
+state 62
+
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON . expression SEMICOLON expression RPAREN compound_statement
+    (20) expression -> . expression PLUS expression
+    (21) expression -> . expression MINUS expression
+    (22) expression -> . expression TIMES expression
+    (23) expression -> . expression DIVIDE expression
+    (24) expression -> . expression EQUAL expression
+    (25) expression -> . expression NOT_EQUAL expression
+    (26) expression -> . expression GREATER_THAN expression
+    (27) expression -> . expression LESS_THAN expression
+    (28) expression -> . expression GREATER_THAN_OR_EQUAL expression
+    (29) expression -> . expression LESS_THAN_OR_EQUAL expression
+    (30) expression -> . INTEGER
+    (31) expression -> . FLOAT
+    (32) expression -> . STRING
+    (33) expression -> . BOOLEAN
+    (34) expression -> . IDENTIFIER
+
+    INTEGER         shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOLEAN         shift and go to state 22
+    IDENTIFIER      shift and go to state 25
+
+    expression                     shift and go to state 67
 
 state 63
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement expression . SEMICOLON expression RPAREN compound_statement
+    (18) assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .
+
+    PRINT           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    LEFT_CURLY_BRACE reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    IF              reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    WHILE           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    FOR             reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    IDENTIFIER      reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    VAR             reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    INTEGER         reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    FLOAT           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    STRING          reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    BOOLEAN         reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    $end            reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    RIGHT_CURLY_BRACE reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+
+
+state 64
+
+    (19) declaration_statement -> VAR IDENTIFIER ASSIGN expression . SEMICOLON
     (20) expression -> expression . PLUS expression
     (21) expression -> expression . MINUS expression
     (22) expression -> expression . TIMES expression
@@ -1890,62 +1955,16 @@ state 63
     LESS_THAN_OR_EQUAL shift and go to state 36
 
 
-state 64
-
-    (18) assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .
-
-    PRINT           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    LEFT_CURLY_BRACE reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    IF              reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    WHILE           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    FOR             reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    IDENTIFIER      reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    VAR             reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    INTEGER         reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    FLOAT           reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    STRING          reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    BOOLEAN         reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    $end            reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    RIGHT_CURLY_BRACE reduce using rule 18 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-
-
 state 65
-
-    (19) declaration_statement -> VAR IDENTIFIER ASSIGN expression . SEMICOLON
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
-    (24) expression -> expression . EQUAL expression
-    (25) expression -> expression . NOT_EQUAL expression
-    (26) expression -> expression . GREATER_THAN expression
-    (27) expression -> expression . LESS_THAN expression
-    (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
-    (29) expression -> expression . LESS_THAN_OR_EQUAL expression
-
-    SEMICOLON       shift and go to state 69
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
-    EQUAL           shift and go to state 31
-    NOT_EQUAL       shift and go to state 32
-    GREATER_THAN    shift and go to state 33
-    LESS_THAN       shift and go to state 34
-    GREATER_THAN_OR_EQUAL shift and go to state 35
-    LESS_THAN_OR_EQUAL shift and go to state 36
-
-
-state 66
 
     (15) selection_statement -> IF expression THEN compound_statement ELSE . compound_statement
     (13) compound_statement -> . LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRACE
 
     LEFT_CURLY_BRACE shift and go to state 13
 
-    compound_statement             shift and go to state 70
+    compound_statement             shift and go to state 69
 
-state 67
+state 66
 
     (16) iteration_statement -> WHILE LPAREN expression RPAREN compound_statement .
 
@@ -1964,9 +1983,74 @@ state 67
     RIGHT_CURLY_BRACE reduce using rule 16 (iteration_statement -> WHILE LPAREN expression RPAREN compound_statement .)
 
 
+state 67
+
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression . SEMICOLON expression RPAREN compound_statement
+    (20) expression -> expression . PLUS expression
+    (21) expression -> expression . MINUS expression
+    (22) expression -> expression . TIMES expression
+    (23) expression -> expression . DIVIDE expression
+    (24) expression -> expression . EQUAL expression
+    (25) expression -> expression . NOT_EQUAL expression
+    (26) expression -> expression . GREATER_THAN expression
+    (27) expression -> expression . LESS_THAN expression
+    (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
+    (29) expression -> expression . LESS_THAN_OR_EQUAL expression
+
+    SEMICOLON       shift and go to state 70
+    PLUS            shift and go to state 27
+    MINUS           shift and go to state 28
+    TIMES           shift and go to state 29
+    DIVIDE          shift and go to state 30
+    EQUAL           shift and go to state 31
+    NOT_EQUAL       shift and go to state 32
+    GREATER_THAN    shift and go to state 33
+    LESS_THAN       shift and go to state 34
+    GREATER_THAN_OR_EQUAL shift and go to state 35
+    LESS_THAN_OR_EQUAL shift and go to state 36
+
+
 state 68
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON . expression RPAREN compound_statement
+    (19) declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .
+
+    PRINT           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    LEFT_CURLY_BRACE reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    IF              reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    WHILE           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    FOR             reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    IDENTIFIER      reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    VAR             reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    INTEGER         reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    FLOAT           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    STRING          reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    BOOLEAN         reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    $end            reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+    RIGHT_CURLY_BRACE reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
+
+
+state 69
+
+    (15) selection_statement -> IF expression THEN compound_statement ELSE compound_statement .
+
+    PRINT           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    LEFT_CURLY_BRACE reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    IF              reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    WHILE           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    FOR             reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    IDENTIFIER      reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    VAR             reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    INTEGER         reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    FLOAT           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    STRING          reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    BOOLEAN         reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    $end            reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+    RIGHT_CURLY_BRACE reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
+
+
+state 70
+
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON . expression RPAREN compound_statement
     (20) expression -> . expression PLUS expression
     (21) expression -> . expression MINUS expression
     (22) expression -> . expression TIMES expression
@@ -1991,47 +2075,9 @@ state 68
 
     expression                     shift and go to state 71
 
-state 69
-
-    (19) declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .
-
-    PRINT           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    LEFT_CURLY_BRACE reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    IF              reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    WHILE           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    FOR             reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    IDENTIFIER      reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    VAR             reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    INTEGER         reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    FLOAT           reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    STRING          reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    BOOLEAN         reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    $end            reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-    RIGHT_CURLY_BRACE reduce using rule 19 (declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON .)
-
-
-state 70
-
-    (15) selection_statement -> IF expression THEN compound_statement ELSE compound_statement .
-
-    PRINT           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    LEFT_CURLY_BRACE reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    IF              reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    WHILE           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    FOR             reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    IDENTIFIER      reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    VAR             reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    INTEGER         reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    FLOAT           reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    STRING          reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    BOOLEAN         reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    $end            reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-    RIGHT_CURLY_BRACE reduce using rule 15 (selection_statement -> IF expression THEN compound_statement ELSE compound_statement .)
-
-
 state 71
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression . RPAREN compound_statement
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression . RPAREN compound_statement
     (20) expression -> expression . PLUS expression
     (21) expression -> expression . MINUS expression
     (22) expression -> expression . TIMES expression
@@ -2058,7 +2104,7 @@ state 71
 
 state 72
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN . compound_statement
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN . compound_statement
     (13) compound_statement -> . LEFT_CURLY_BRACE statement_list RIGHT_CURLY_BRACE
 
     LEFT_CURLY_BRACE shift and go to state 13
@@ -2067,21 +2113,21 @@ state 72
 
 state 73
 
-    (17) iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .
+    (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .
 
-    PRINT           reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    LEFT_CURLY_BRACE reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    IF              reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    WHILE           reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    FOR             reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    IDENTIFIER      reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    VAR             reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    INTEGER         reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    FLOAT           reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    STRING          reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    BOOLEAN         reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    $end            reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
-    RIGHT_CURLY_BRACE reduce using rule 17 (iteration_statement -> FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement .)
+    PRINT           reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    LEFT_CURLY_BRACE reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    IF              reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    WHILE           reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    FOR             reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    IDENTIFIER      reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    VAR             reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    INTEGER         reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    FLOAT           reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    STRING          reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    BOOLEAN         reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    $end            reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
+    RIGHT_CURLY_BRACE reduce using rule 17 (iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement .)
 
 WARNING: 
 WARNING: Conflicts:

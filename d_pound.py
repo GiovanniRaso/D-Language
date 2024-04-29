@@ -13,7 +13,8 @@ tokens = (
     'LEFT_CURLY_BRACE', 'RIGHT_CURLY_BRACE',
     'LEFT_SQUARE_BRACKET', 'RIGHT_SQUARE_BRACKET',
     'COMMA', 'SEMICOLON', 'COLON', 'DOT',
-    'RIGHT_ARROW', 'LEFT_ARROW'
+    'RIGHT_ARROW', 'LEFT_ARROW',
+    'INCREMENT', 'DECREMENT', 'EQUAL_TO', 'NOT_EQUAL_TO'
 )
 
 
@@ -33,6 +34,10 @@ t_COMMA     = r','
 t_SEMICOLON = r';'
 t_COLON     = r':'
 t_DOT       = r'\.'
+t_INCREMENT = r'\+\+'
+t_DECREMENT = r'--'
+t_EQUAL_TO  = r'=='
+t_NOT_EQUAL_TO = r'!='
 t_EQUAL     = r'=='
 t_NOT_EQUAL = r'!='
 t_GREATER_THAN = r'>'
@@ -152,14 +157,12 @@ def p_selection_statement(p):
 def p_iteration_statement(p):
     '''
     iteration_statement : WHILE LPAREN expression RPAREN compound_statement
-                        | FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
+                        | FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     '''
     if len(p) == 6:
         p[0] = ('while', p[3], p[5])
     else:
-        p[0] = ('for', p[3], p[4], p[5], p[7])
-
-
+        p[0] = ('for', p[3], p[5], p[7], p[9])
 
 def p_assignment_statement(p):
     'assignment_statement : IDENTIFIER ASSIGN expression SEMICOLON'
@@ -271,6 +274,10 @@ def interpret_print(value):
 def interpret_binop(left, op, right):
     left_val = interpret(left)
     right_val = interpret(right)
+    if isinstance(left_val, str) and left_val.isdigit():
+        left_val = int(left_val)
+    if isinstance(right_val, str) and right_val.isdigit():
+        right_val = int(right_val)
     if op == '+':
         return left_val + right_val
     elif op == '-':
@@ -278,8 +285,29 @@ def interpret_binop(left, op, right):
     elif op == '*':
         return left_val * right_val
     elif op == '/':
-        return left_val / right_val
-    # Add other operators here
+        if right_val == 0:
+            print("Error: Division by zero")  # Print an error message or handle it in another way
+            return None  # You can choose to return None or raise an exception
+        else:
+            return left_val / right_val
+    elif op == '>':
+        return left_val > right_val
+    elif op == '<':
+        return left_val < right_val
+    elif op == '>=':
+        return left_val >= right_val
+    elif op == '<=':
+        return left_val <= right_val
+    elif op == '==':
+        return left_val == right_val
+    elif op == '!=':
+        return left_val != right_val
+    elif op == '&&':
+        return left_val and right_val
+    elif op == '||':
+        return left_val or right_val
+    else:
+        raise ValueError(f"Unsupported operator: {op}")
 
 def interpret_declare(kind, var, expr):
     value = interpret(expr)
