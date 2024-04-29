@@ -17,32 +17,47 @@ tokens = (
 )
 
 
-t_PLUS    = r'add'
-t_MINUS   = r'subtract'
-t_TIMES   = r'multiply'
-t_DIVIDE  = r'divide'
-t_MODULUS = r'modulus'
-t_ASSIGN  = r'is'
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
+t_ASSIGN    = r'='
+t_PLUS      = r'\+'
+t_MINUS     = r'-'
+t_TIMES     = r'\*'
+t_DIVIDE    = r'/'
+t_MODULUS   = r'%'
+t_LPAREN    = r'\('
+t_RPAREN    = r'\)'
 t_LEFT_CURLY_BRACE = r'\{'
 t_RIGHT_CURLY_BRACE = r'\}'
 t_LEFT_SQUARE_BRACKET = r'\['
 t_RIGHT_SQUARE_BRACKET = r'\]'
-t_COMMA  = r','
+t_COMMA     = r','
 t_SEMICOLON = r';'
-t_COLON = r':'
-t_DOT = r'\.'
-t_EQUAL = r'equal'
+t_COLON     = r':'
+t_DOT       = r'\.'
+t_EQUAL     = r'=='
 t_NOT_EQUAL = r'!='
 t_GREATER_THAN = r'>'
 t_LESS_THAN = r'<'
 t_GREATER_THAN_OR_EQUAL = r'>='
 t_LESS_THAN_OR_EQUAL = r'<='
-t_AND = r'and'
-t_OR = r'or'
-t_NOT = r'not'
+t_AND       = r'&&'
+t_OR        = r'\|\|'
+t_NOT       = r'!'
 
+reserved = {
+    "if" : "IF",
+    'then' : 'THEN', 
+    "else" : "ELSE",
+    "for" : "FOR",
+    "while" : "WHILE",
+    "function" : "FUNCTION",
+    "return" : "RETURN",
+    "var" : "VAR",
+    "const" : "CONST",
+    "print" : "PRINT",
+    "true" : "TRUE",
+    "false" : "FALSE",
+    "var" : "VAR"
+}
 
 def t_FlOAT(t):
     r'\d+\.\d+'
@@ -65,24 +80,11 @@ def t_BOOLEAN(t):
     return t
 
 def t_IDENTIFIER(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value.lower(), 'IDENTIFIER')  # Ensure case insensitivity
     return t
 
-reserved = {
-    "if" : "IF",
-    "else" : "ELSE",
-    "for" : "FOR",
-    "while" : "WHILE",
-    "function" : "FUNCTION",
-    "return" : "RETURN",
-    "var" : "VAR",
-    "const" : "CONST",
-    "print" : "PRINT",
-    "true" : "TRUE",
-    "false" : "FALSE",
-    "var" : "VAR"
-}
+tokens += tuple(reserved.values())
 
 t_ignore = ' \t'
 
@@ -112,10 +114,15 @@ def p_statement_list(p):
         p[0] = p[1] + [p[2]]
     else:
         p[0] = [p[1]]
+        
+def p_print_statement(p):
+    'print_statement : PRINT expression SEMICOLON'
+    p[0] = ('print', p[2])
 
 def p_statement(p):
     '''
-    statement : expression_statement
+    statement : print_statement
+              | expression_statement
               | compound_statement
               | selection_statement
               | iteration_statement
@@ -134,19 +141,25 @@ def p_compound_statement(p):
 
 def p_selection_statement(p):
     '''
-    selection_statement : IF LPAREN expression RPAREN statement
-                        | IF LPAREN expression RPAREN statement ELSE statement
+    selection_statement : IF expression THEN compound_statement
+                        | IF expression THEN compound_statement ELSE compound_statement
     '''
-    if len(p) == 6:
-        p[0] = ('if', p[3], p[5])
+    if len(p) == 5:
+        p[0] = ('if', p[2], p[4], None)
     else:
-        p[0] = ('if-else', p[3], p[5], p[7])
+        p[0] = ('if-else', p[2], p[4], p[6])
 
 def p_iteration_statement(p):
     '''
-    iteration_statement : WHILE LPAREN expression RPAREN compound_statement 
+    iteration_statement : WHILE LPAREN expression RPAREN compound_statement
+                        | FOR LPAREN assignment_statement expression SEMICOLON expression RPAREN compound_statement
     '''
-    p[0] = ('while', p[3], p[5])
+    if len(p) == 6:
+        p[0] = ('while', p[3], p[5])
+    else:
+        p[0] = ('for', p[3], p[4], p[5], p[7])
+
+
 
 def p_assignment_statement(p):
     'assignment_statement : IDENTIFIER ASSIGN expression SEMICOLON'
@@ -164,6 +177,12 @@ def p_expression(p):
                | expression MINUS expression
                | expression TIMES expression
                | expression DIVIDE expression
+               | expression EQUAL expression
+               | expression NOT_EQUAL expression
+               | expression GREATER_THAN expression
+               | expression LESS_THAN expression
+               | expression GREATER_THAN_OR_EQUAL expression
+               | expression LESS_THAN_OR_EQUAL expression
                | INTEGER
                | FLOAT
                | STRING
@@ -174,6 +193,7 @@ def p_expression(p):
         p[0] = ('binop', p[1], p[2], p[3])
     else:
         p[0] = ('value', p[1])
+
 
 def p_error(p):
     if p:
@@ -212,6 +232,12 @@ def interpret(ast):
             return interpret_if_else(ast[1], ast[2], ast[3])
         elif op == 'while':
             return interpret_while(ast[1], ast[2])
+        elif op == 'for':
+            return interpret_for(ast[1], ast[2], ast[3], ast[4])
+        elif op == 'print':  # Handle 'print' operation
+            value_to_print = interpret(ast[1])  # Evaluate the expression to be printed
+            print(value_to_print)  # Print the result of the expression
+            return
         elif op == 'value':
             if isinstance(ast[1], str) and ast[1] in memory:
                 return memory[ast[1]]
@@ -234,7 +260,13 @@ def interpret_assign(var, expr):
     return value
 
 def interpret_expression(expr):
-    return interpret(expr)
+    if expr[0] == 'value':
+        return expr[1]  # Direct value
+    elif expr[0] == 'binop':
+        return interpret_binop(expr[1], expr[2], expr[3])
+
+def interpret_print(value):
+    print(interpret(value))
 
 def interpret_binop(left, op, right):
     left_val = interpret(left)
@@ -267,6 +299,12 @@ def interpret_if_else(condition, if_statement, else_statement):
 def interpret_while(condition, statement):
     while interpret(condition):
         interpret(statement)
+        
+def interpret_for(assign, condition, update, statement):
+    interpret(assign)
+    while interpret(condition):
+        interpret(statement)
+        interpret(update)
 
 
 if __name__ == "__main__":
@@ -278,7 +316,7 @@ if __name__ == "__main__":
         if not s:
             continue
         result = parser.parse(s, lexer=lexer)
-        if result is not None:
-            print(interpret(result))
-        else:
-            print("Error in parsing.")
+        if result is not None:  # Interpret and check if there's something to print
+            output = interpret(result)
+            if output is not None:
+                print(output)
