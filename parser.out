@@ -45,10 +45,10 @@ Rule 16    iteration_statement -> WHILE LPAREN expression RPAREN compound_statem
 Rule 17    iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
 Rule 18    assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON
 Rule 19    declaration_statement -> VAR IDENTIFIER ASSIGN expression SEMICOLON
-Rule 20    expression -> expression PLUS expression
-Rule 21    expression -> expression MINUS expression
-Rule 22    expression -> expression TIMES expression
-Rule 23    expression -> expression DIVIDE expression
+Rule 20    expression -> expression ADD expression
+Rule 21    expression -> expression SUB expression
+Rule 22    expression -> expression MULT expression
+Rule 23    expression -> expression DIV expression
 Rule 24    expression -> expression EQUAL expression
 Rule 25    expression -> expression NOT_EQUAL expression
 Rule 26    expression -> expression GREATER_THAN expression
@@ -63,6 +63,7 @@ Rule 34    expression -> IDENTIFIER
 
 Terminals, with rules where they appear
 
+ADD                  : 20
 AND                  : 
 ASSIGN               : 18 19
 BOOLEAN              : 33
@@ -70,7 +71,7 @@ COLON                :
 COMMA                : 
 CONST                : 
 DECREMENT            : 
-DIVIDE               : 23
+DIV                  : 23
 DOT                  : 
 ELSE                 : 15
 EQUAL                : 24
@@ -91,13 +92,12 @@ LEFT_SQUARE_BRACKET  :
 LESS_THAN            : 27
 LESS_THAN_OR_EQUAL   : 29
 LPAREN               : 16 17
-MINUS                : 21
 MODULUS              : 
+MULT                 : 22
 NOT                  : 
 NOT_EQUAL            : 25
 NOT_EQUAL_TO         : 
 OR                   : 
-PLUS                 : 20
 PRINT                : 4
 RETURN               : 
 RIGHT_ARROW          : 
@@ -106,8 +106,8 @@ RIGHT_SQUARE_BRACKET :
 RPAREN               : 16 17
 SEMICOLON            : 4 12 17 17 18 19
 STRING               : 32
+SUB                  : 21
 THEN                 : 14 15
-TIMES                : 22
 TRUE                 : 
 VAR                  : 19
 WHILE                : 16
@@ -151,10 +151,10 @@ state 0
     (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -217,10 +217,10 @@ state 2
     (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -411,10 +411,10 @@ state 10
 state 11
 
     (4) print_statement -> PRINT . expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -438,10 +438,10 @@ state 11
 state 12
 
     (12) expression_statement -> expression . SEMICOLON
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -450,10 +450,10 @@ state 12
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 26
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -483,10 +483,10 @@ state 13
     (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -526,10 +526,10 @@ state 14
 
     (14) selection_statement -> IF . expression THEN compound_statement
     (15) selection_statement -> IF . expression THEN compound_statement ELSE compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -571,10 +571,10 @@ state 17
 
     ASSIGN          shift and go to state 41
     SEMICOLON       reduce using rule 34 (expression -> IDENTIFIER .)
-    PLUS            reduce using rule 34 (expression -> IDENTIFIER .)
-    MINUS           reduce using rule 34 (expression -> IDENTIFIER .)
-    TIMES           reduce using rule 34 (expression -> IDENTIFIER .)
-    DIVIDE          reduce using rule 34 (expression -> IDENTIFIER .)
+    ADD             reduce using rule 34 (expression -> IDENTIFIER .)
+    SUB             reduce using rule 34 (expression -> IDENTIFIER .)
+    MULT            reduce using rule 34 (expression -> IDENTIFIER .)
+    DIV             reduce using rule 34 (expression -> IDENTIFIER .)
     EQUAL           reduce using rule 34 (expression -> IDENTIFIER .)
     NOT_EQUAL       reduce using rule 34 (expression -> IDENTIFIER .)
     GREATER_THAN    reduce using rule 34 (expression -> IDENTIFIER .)
@@ -595,10 +595,10 @@ state 19
     (30) expression -> INTEGER .
 
     SEMICOLON       reduce using rule 30 (expression -> INTEGER .)
-    PLUS            reduce using rule 30 (expression -> INTEGER .)
-    MINUS           reduce using rule 30 (expression -> INTEGER .)
-    TIMES           reduce using rule 30 (expression -> INTEGER .)
-    DIVIDE          reduce using rule 30 (expression -> INTEGER .)
+    ADD             reduce using rule 30 (expression -> INTEGER .)
+    SUB             reduce using rule 30 (expression -> INTEGER .)
+    MULT            reduce using rule 30 (expression -> INTEGER .)
+    DIV             reduce using rule 30 (expression -> INTEGER .)
     EQUAL           reduce using rule 30 (expression -> INTEGER .)
     NOT_EQUAL       reduce using rule 30 (expression -> INTEGER .)
     GREATER_THAN    reduce using rule 30 (expression -> INTEGER .)
@@ -614,10 +614,10 @@ state 20
     (31) expression -> FLOAT .
 
     SEMICOLON       reduce using rule 31 (expression -> FLOAT .)
-    PLUS            reduce using rule 31 (expression -> FLOAT .)
-    MINUS           reduce using rule 31 (expression -> FLOAT .)
-    TIMES           reduce using rule 31 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 31 (expression -> FLOAT .)
+    ADD             reduce using rule 31 (expression -> FLOAT .)
+    SUB             reduce using rule 31 (expression -> FLOAT .)
+    MULT            reduce using rule 31 (expression -> FLOAT .)
+    DIV             reduce using rule 31 (expression -> FLOAT .)
     EQUAL           reduce using rule 31 (expression -> FLOAT .)
     NOT_EQUAL       reduce using rule 31 (expression -> FLOAT .)
     GREATER_THAN    reduce using rule 31 (expression -> FLOAT .)
@@ -633,10 +633,10 @@ state 21
     (32) expression -> STRING .
 
     SEMICOLON       reduce using rule 32 (expression -> STRING .)
-    PLUS            reduce using rule 32 (expression -> STRING .)
-    MINUS           reduce using rule 32 (expression -> STRING .)
-    TIMES           reduce using rule 32 (expression -> STRING .)
-    DIVIDE          reduce using rule 32 (expression -> STRING .)
+    ADD             reduce using rule 32 (expression -> STRING .)
+    SUB             reduce using rule 32 (expression -> STRING .)
+    MULT            reduce using rule 32 (expression -> STRING .)
+    DIV             reduce using rule 32 (expression -> STRING .)
     EQUAL           reduce using rule 32 (expression -> STRING .)
     NOT_EQUAL       reduce using rule 32 (expression -> STRING .)
     GREATER_THAN    reduce using rule 32 (expression -> STRING .)
@@ -652,10 +652,10 @@ state 22
     (33) expression -> BOOLEAN .
 
     SEMICOLON       reduce using rule 33 (expression -> BOOLEAN .)
-    PLUS            reduce using rule 33 (expression -> BOOLEAN .)
-    MINUS           reduce using rule 33 (expression -> BOOLEAN .)
-    TIMES           reduce using rule 33 (expression -> BOOLEAN .)
-    DIVIDE          reduce using rule 33 (expression -> BOOLEAN .)
+    ADD             reduce using rule 33 (expression -> BOOLEAN .)
+    SUB             reduce using rule 33 (expression -> BOOLEAN .)
+    MULT            reduce using rule 33 (expression -> BOOLEAN .)
+    DIV             reduce using rule 33 (expression -> BOOLEAN .)
     EQUAL           reduce using rule 33 (expression -> BOOLEAN .)
     NOT_EQUAL       reduce using rule 33 (expression -> BOOLEAN .)
     GREATER_THAN    reduce using rule 33 (expression -> BOOLEAN .)
@@ -688,10 +688,10 @@ state 23
 state 24
 
     (4) print_statement -> PRINT expression . SEMICOLON
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -700,10 +700,10 @@ state 24
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 43
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -717,10 +717,10 @@ state 25
     (34) expression -> IDENTIFIER .
 
     SEMICOLON       reduce using rule 34 (expression -> IDENTIFIER .)
-    PLUS            reduce using rule 34 (expression -> IDENTIFIER .)
-    MINUS           reduce using rule 34 (expression -> IDENTIFIER .)
-    TIMES           reduce using rule 34 (expression -> IDENTIFIER .)
-    DIVIDE          reduce using rule 34 (expression -> IDENTIFIER .)
+    ADD             reduce using rule 34 (expression -> IDENTIFIER .)
+    SUB             reduce using rule 34 (expression -> IDENTIFIER .)
+    MULT            reduce using rule 34 (expression -> IDENTIFIER .)
+    DIV             reduce using rule 34 (expression -> IDENTIFIER .)
     EQUAL           reduce using rule 34 (expression -> IDENTIFIER .)
     NOT_EQUAL       reduce using rule 34 (expression -> IDENTIFIER .)
     GREATER_THAN    reduce using rule 34 (expression -> IDENTIFIER .)
@@ -752,11 +752,11 @@ state 26
 
 state 27
 
-    (20) expression -> expression PLUS . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> expression ADD . expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -779,11 +779,11 @@ state 27
 
 state 28
 
-    (21) expression -> expression MINUS . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (21) expression -> expression SUB . expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -806,11 +806,11 @@ state 28
 
 state 29
 
-    (22) expression -> expression TIMES . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (22) expression -> expression MULT . expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -833,11 +833,11 @@ state 29
 
 state 30
 
-    (23) expression -> expression DIVIDE . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (23) expression -> expression DIV . expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -861,10 +861,10 @@ state 30
 state 31
 
     (24) expression -> expression EQUAL . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -888,10 +888,10 @@ state 31
 state 32
 
     (25) expression -> expression NOT_EQUAL . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -915,10 +915,10 @@ state 32
 state 33
 
     (26) expression -> expression GREATER_THAN . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -942,10 +942,10 @@ state 33
 state 34
 
     (27) expression -> expression LESS_THAN . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -969,10 +969,10 @@ state 34
 state 35
 
     (28) expression -> expression GREATER_THAN_OR_EQUAL . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -996,10 +996,10 @@ state 35
 state 36
 
     (29) expression -> expression LESS_THAN_OR_EQUAL . expression
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1040,10 +1040,10 @@ state 37
     (17) iteration_statement -> . FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
     (18) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
     (19) declaration_statement -> . VAR IDENTIFIER ASSIGN expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1083,10 +1083,10 @@ state 38
 
     (14) selection_statement -> IF expression . THEN compound_statement
     (15) selection_statement -> IF expression . THEN compound_statement ELSE compound_statement
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1095,10 +1095,10 @@ state 38
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     THEN            shift and go to state 55
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1110,10 +1110,10 @@ state 38
 state 39
 
     (16) iteration_statement -> WHILE LPAREN . expression RPAREN compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1137,10 +1137,10 @@ state 39
 state 40
 
     (17) iteration_statement -> FOR LPAREN . expression SEMICOLON expression SEMICOLON expression RPAREN compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1164,10 +1164,10 @@ state 40
 state 41
 
     (18) assignment_statement -> IDENTIFIER ASSIGN . expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1216,11 +1216,11 @@ state 43
 
 state 44
 
-    (20) expression -> expression PLUS expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression ADD expression .
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1228,23 +1228,23 @@ state 44
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
   ! shift/reduce conflict for LESS_THAN resolved as shift
   ! shift/reduce conflict for GREATER_THAN_OR_EQUAL resolved as shift
   ! shift/reduce conflict for LESS_THAN_OR_EQUAL resolved as shift
-    SEMICOLON       reduce using rule 20 (expression -> expression PLUS expression .)
-    THEN            reduce using rule 20 (expression -> expression PLUS expression .)
-    RPAREN          reduce using rule 20 (expression -> expression PLUS expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    SEMICOLON       reduce using rule 20 (expression -> expression ADD expression .)
+    THEN            reduce using rule 20 (expression -> expression ADD expression .)
+    RPAREN          reduce using rule 20 (expression -> expression ADD expression .)
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1252,25 +1252,25 @@ state 44
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! MINUS           [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! TIMES           [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! EQUAL           [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! NOT_EQUAL       [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! GREATER_THAN    [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! LESS_THAN       [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! GREATER_THAN_OR_EQUAL [ reduce using rule 20 (expression -> expression PLUS expression .) ]
-  ! LESS_THAN_OR_EQUAL [ reduce using rule 20 (expression -> expression PLUS expression .) ]
+  ! ADD             [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! SUB             [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! MULT            [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! DIV             [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! EQUAL           [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! NOT_EQUAL       [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! GREATER_THAN    [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! LESS_THAN       [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! GREATER_THAN_OR_EQUAL [ reduce using rule 20 (expression -> expression ADD expression .) ]
+  ! LESS_THAN_OR_EQUAL [ reduce using rule 20 (expression -> expression ADD expression .) ]
 
 
 state 45
 
-    (21) expression -> expression MINUS expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (21) expression -> expression SUB expression .
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1278,23 +1278,23 @@ state 45
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
   ! shift/reduce conflict for LESS_THAN resolved as shift
   ! shift/reduce conflict for GREATER_THAN_OR_EQUAL resolved as shift
   ! shift/reduce conflict for LESS_THAN_OR_EQUAL resolved as shift
-    SEMICOLON       reduce using rule 21 (expression -> expression MINUS expression .)
-    THEN            reduce using rule 21 (expression -> expression MINUS expression .)
-    RPAREN          reduce using rule 21 (expression -> expression MINUS expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    SEMICOLON       reduce using rule 21 (expression -> expression SUB expression .)
+    THEN            reduce using rule 21 (expression -> expression SUB expression .)
+    RPAREN          reduce using rule 21 (expression -> expression SUB expression .)
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1302,25 +1302,25 @@ state 45
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! MINUS           [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! TIMES           [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! EQUAL           [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! NOT_EQUAL       [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! GREATER_THAN    [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! LESS_THAN       [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! GREATER_THAN_OR_EQUAL [ reduce using rule 21 (expression -> expression MINUS expression .) ]
-  ! LESS_THAN_OR_EQUAL [ reduce using rule 21 (expression -> expression MINUS expression .) ]
+  ! ADD             [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! SUB             [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! MULT            [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! DIV             [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! EQUAL           [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! NOT_EQUAL       [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! GREATER_THAN    [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! LESS_THAN       [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! GREATER_THAN_OR_EQUAL [ reduce using rule 21 (expression -> expression SUB expression .) ]
+  ! LESS_THAN_OR_EQUAL [ reduce using rule 21 (expression -> expression SUB expression .) ]
 
 
 state 46
 
-    (22) expression -> expression TIMES expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (22) expression -> expression MULT expression .
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1328,23 +1328,23 @@ state 46
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
   ! shift/reduce conflict for LESS_THAN resolved as shift
   ! shift/reduce conflict for GREATER_THAN_OR_EQUAL resolved as shift
   ! shift/reduce conflict for LESS_THAN_OR_EQUAL resolved as shift
-    SEMICOLON       reduce using rule 22 (expression -> expression TIMES expression .)
-    THEN            reduce using rule 22 (expression -> expression TIMES expression .)
-    RPAREN          reduce using rule 22 (expression -> expression TIMES expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    SEMICOLON       reduce using rule 22 (expression -> expression MULT expression .)
+    THEN            reduce using rule 22 (expression -> expression MULT expression .)
+    RPAREN          reduce using rule 22 (expression -> expression MULT expression .)
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1352,25 +1352,25 @@ state 46
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! MINUS           [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! TIMES           [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! DIVIDE          [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! EQUAL           [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! NOT_EQUAL       [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! GREATER_THAN    [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! LESS_THAN       [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! GREATER_THAN_OR_EQUAL [ reduce using rule 22 (expression -> expression TIMES expression .) ]
-  ! LESS_THAN_OR_EQUAL [ reduce using rule 22 (expression -> expression TIMES expression .) ]
+  ! ADD             [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! SUB             [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! MULT            [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! DIV             [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! EQUAL           [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! NOT_EQUAL       [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! GREATER_THAN    [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! LESS_THAN       [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! GREATER_THAN_OR_EQUAL [ reduce using rule 22 (expression -> expression MULT expression .) ]
+  ! LESS_THAN_OR_EQUAL [ reduce using rule 22 (expression -> expression MULT expression .) ]
 
 
 state 47
 
-    (23) expression -> expression DIVIDE expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (23) expression -> expression DIV expression .
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1378,23 +1378,23 @@ state 47
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
   ! shift/reduce conflict for LESS_THAN resolved as shift
   ! shift/reduce conflict for GREATER_THAN_OR_EQUAL resolved as shift
   ! shift/reduce conflict for LESS_THAN_OR_EQUAL resolved as shift
-    SEMICOLON       reduce using rule 23 (expression -> expression DIVIDE expression .)
-    THEN            reduce using rule 23 (expression -> expression DIVIDE expression .)
-    RPAREN          reduce using rule 23 (expression -> expression DIVIDE expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    SEMICOLON       reduce using rule 23 (expression -> expression DIV expression .)
+    THEN            reduce using rule 23 (expression -> expression DIV expression .)
+    RPAREN          reduce using rule 23 (expression -> expression DIV expression .)
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1402,25 +1402,25 @@ state 47
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! MINUS           [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! TIMES           [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! DIVIDE          [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! EQUAL           [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! NOT_EQUAL       [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! GREATER_THAN    [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! LESS_THAN       [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! GREATER_THAN_OR_EQUAL [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
-  ! LESS_THAN_OR_EQUAL [ reduce using rule 23 (expression -> expression DIVIDE expression .) ]
+  ! ADD             [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! SUB             [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! MULT            [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! DIV             [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! EQUAL           [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! NOT_EQUAL       [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! GREATER_THAN    [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! LESS_THAN       [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! GREATER_THAN_OR_EQUAL [ reduce using rule 23 (expression -> expression DIV expression .) ]
+  ! LESS_THAN_OR_EQUAL [ reduce using rule 23 (expression -> expression DIV expression .) ]
 
 
 state 48
 
     (24) expression -> expression EQUAL expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1428,10 +1428,10 @@ state 48
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1441,10 +1441,10 @@ state 48
     SEMICOLON       reduce using rule 24 (expression -> expression EQUAL expression .)
     THEN            reduce using rule 24 (expression -> expression EQUAL expression .)
     RPAREN          reduce using rule 24 (expression -> expression EQUAL expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1452,10 +1452,10 @@ state 48
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
-  ! TIMES           [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
+  ! ADD             [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
+  ! SUB             [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
+  ! MULT            [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
+  ! DIV             [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
   ! EQUAL           [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
   ! NOT_EQUAL       [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
   ! GREATER_THAN    [ reduce using rule 24 (expression -> expression EQUAL expression .) ]
@@ -1467,10 +1467,10 @@ state 48
 state 49
 
     (25) expression -> expression NOT_EQUAL expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1478,10 +1478,10 @@ state 49
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1491,10 +1491,10 @@ state 49
     SEMICOLON       reduce using rule 25 (expression -> expression NOT_EQUAL expression .)
     THEN            reduce using rule 25 (expression -> expression NOT_EQUAL expression .)
     RPAREN          reduce using rule 25 (expression -> expression NOT_EQUAL expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1502,10 +1502,10 @@ state 49
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
-  ! TIMES           [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
+  ! ADD             [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
+  ! SUB             [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
+  ! MULT            [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
+  ! DIV             [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
   ! EQUAL           [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
   ! NOT_EQUAL       [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
   ! GREATER_THAN    [ reduce using rule 25 (expression -> expression NOT_EQUAL expression .) ]
@@ -1517,10 +1517,10 @@ state 49
 state 50
 
     (26) expression -> expression GREATER_THAN expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1528,10 +1528,10 @@ state 50
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1541,10 +1541,10 @@ state 50
     SEMICOLON       reduce using rule 26 (expression -> expression GREATER_THAN expression .)
     THEN            reduce using rule 26 (expression -> expression GREATER_THAN expression .)
     RPAREN          reduce using rule 26 (expression -> expression GREATER_THAN expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1552,10 +1552,10 @@ state 50
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
-  ! MINUS           [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
-  ! TIMES           [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
-  ! DIVIDE          [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
+  ! ADD             [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
+  ! SUB             [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
+  ! MULT            [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
+  ! DIV             [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
   ! EQUAL           [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
   ! NOT_EQUAL       [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
   ! GREATER_THAN    [ reduce using rule 26 (expression -> expression GREATER_THAN expression .) ]
@@ -1567,10 +1567,10 @@ state 50
 state 51
 
     (27) expression -> expression LESS_THAN expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1578,10 +1578,10 @@ state 51
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1591,10 +1591,10 @@ state 51
     SEMICOLON       reduce using rule 27 (expression -> expression LESS_THAN expression .)
     THEN            reduce using rule 27 (expression -> expression LESS_THAN expression .)
     RPAREN          reduce using rule 27 (expression -> expression LESS_THAN expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1602,10 +1602,10 @@ state 51
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
-  ! MINUS           [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
-  ! TIMES           [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
-  ! DIVIDE          [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
+  ! ADD             [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
+  ! SUB             [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
+  ! MULT            [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
+  ! DIV             [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
   ! EQUAL           [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
   ! NOT_EQUAL       [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
   ! GREATER_THAN    [ reduce using rule 27 (expression -> expression LESS_THAN expression .) ]
@@ -1617,10 +1617,10 @@ state 51
 state 52
 
     (28) expression -> expression GREATER_THAN_OR_EQUAL expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1628,10 +1628,10 @@ state 52
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1641,10 +1641,10 @@ state 52
     SEMICOLON       reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .)
     THEN            reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .)
     RPAREN          reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1652,10 +1652,10 @@ state 52
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
-  ! TIMES           [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
+  ! ADD             [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
+  ! SUB             [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
+  ! MULT            [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
+  ! DIV             [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
   ! EQUAL           [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
   ! NOT_EQUAL       [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
   ! GREATER_THAN    [ reduce using rule 28 (expression -> expression GREATER_THAN_OR_EQUAL expression .) ]
@@ -1667,10 +1667,10 @@ state 52
 state 53
 
     (29) expression -> expression LESS_THAN_OR_EQUAL expression .
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1678,10 +1678,10 @@ state 53
     (28) expression -> expression . GREATER_THAN_OR_EQUAL expression
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ADD resolved as shift
+  ! shift/reduce conflict for SUB resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
   ! shift/reduce conflict for EQUAL resolved as shift
   ! shift/reduce conflict for NOT_EQUAL resolved as shift
   ! shift/reduce conflict for GREATER_THAN resolved as shift
@@ -1691,10 +1691,10 @@ state 53
     SEMICOLON       reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .)
     THEN            reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .)
     RPAREN          reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .)
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1702,10 +1702,10 @@ state 53
     GREATER_THAN_OR_EQUAL shift and go to state 35
     LESS_THAN_OR_EQUAL shift and go to state 36
 
-  ! PLUS            [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
-  ! MINUS           [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
-  ! TIMES           [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
-  ! DIVIDE          [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
+  ! ADD             [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
+  ! SUB             [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
+  ! MULT            [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
+  ! DIV             [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
   ! EQUAL           [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
   ! NOT_EQUAL       [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
   ! GREATER_THAN    [ reduce using rule 29 (expression -> expression LESS_THAN_OR_EQUAL expression .) ]
@@ -1747,10 +1747,10 @@ state 55
 state 56
 
     (16) iteration_statement -> WHILE LPAREN expression . RPAREN compound_statement
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1759,10 +1759,10 @@ state 56
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     RPAREN          shift and go to state 61
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1774,10 +1774,10 @@ state 56
 state 57
 
     (17) iteration_statement -> FOR LPAREN expression . SEMICOLON expression SEMICOLON expression RPAREN compound_statement
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1786,10 +1786,10 @@ state 57
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 62
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1801,10 +1801,10 @@ state 57
 state 58
 
     (18) assignment_statement -> IDENTIFIER ASSIGN expression . SEMICOLON
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1813,10 +1813,10 @@ state 58
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 63
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1828,10 +1828,10 @@ state 58
 state 59
 
     (19) declaration_statement -> VAR IDENTIFIER ASSIGN . expression SEMICOLON
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1885,10 +1885,10 @@ state 61
 state 62
 
     (17) iteration_statement -> FOR LPAREN expression SEMICOLON . expression SEMICOLON expression RPAREN compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -1931,10 +1931,10 @@ state 63
 state 64
 
     (19) declaration_statement -> VAR IDENTIFIER ASSIGN expression . SEMICOLON
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1943,10 +1943,10 @@ state 64
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 68
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -1986,10 +1986,10 @@ state 66
 state 67
 
     (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression . SEMICOLON expression RPAREN compound_statement
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -1998,10 +1998,10 @@ state 67
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     SEMICOLON       shift and go to state 70
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -2051,10 +2051,10 @@ state 69
 state 70
 
     (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON . expression RPAREN compound_statement
-    (20) expression -> . expression PLUS expression
-    (21) expression -> . expression MINUS expression
-    (22) expression -> . expression TIMES expression
-    (23) expression -> . expression DIVIDE expression
+    (20) expression -> . expression ADD expression
+    (21) expression -> . expression SUB expression
+    (22) expression -> . expression MULT expression
+    (23) expression -> . expression DIV expression
     (24) expression -> . expression EQUAL expression
     (25) expression -> . expression NOT_EQUAL expression
     (26) expression -> . expression GREATER_THAN expression
@@ -2078,10 +2078,10 @@ state 70
 state 71
 
     (17) iteration_statement -> FOR LPAREN expression SEMICOLON expression SEMICOLON expression . RPAREN compound_statement
-    (20) expression -> expression . PLUS expression
-    (21) expression -> expression . MINUS expression
-    (22) expression -> expression . TIMES expression
-    (23) expression -> expression . DIVIDE expression
+    (20) expression -> expression . ADD expression
+    (21) expression -> expression . SUB expression
+    (22) expression -> expression . MULT expression
+    (23) expression -> expression . DIV expression
     (24) expression -> expression . EQUAL expression
     (25) expression -> expression . NOT_EQUAL expression
     (26) expression -> expression . GREATER_THAN expression
@@ -2090,10 +2090,10 @@ state 71
     (29) expression -> expression . LESS_THAN_OR_EQUAL expression
 
     RPAREN          shift and go to state 72
-    PLUS            shift and go to state 27
-    MINUS           shift and go to state 28
-    TIMES           shift and go to state 29
-    DIVIDE          shift and go to state 30
+    ADD             shift and go to state 27
+    SUB             shift and go to state 28
+    MULT            shift and go to state 29
+    DIV             shift and go to state 30
     EQUAL           shift and go to state 31
     NOT_EQUAL       shift and go to state 32
     GREATER_THAN    shift and go to state 33
@@ -2132,100 +2132,100 @@ state 73
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 44 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 44 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 44 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 44 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 44 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 44 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 44 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 44 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 44 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 44 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 44 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 44 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 44 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 44 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 45 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 45 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 45 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 45 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 45 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 45 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 45 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 45 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 45 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 45 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 45 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 45 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 45 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 45 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 46 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 46 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 46 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 46 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 46 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 46 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 46 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 46 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 46 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 46 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 46 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 46 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 47 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 47 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 47 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 47 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 47 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 47 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 47 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 47 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 47 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 47 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 47 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 47 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 48 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 48 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 48 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 48 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 48 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 48 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 48 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 48 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 48 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 48 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 48 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 48 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 48 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 48 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 49 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 49 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 49 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 49 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 49 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 49 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 49 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 49 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 49 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 49 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 49 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 49 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 49 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 49 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 50 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 50 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 50 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 50 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 50 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 50 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 50 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 50 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 50 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 50 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 50 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 50 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 51 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 51 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 51 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 51 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 51 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 51 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 51 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 51 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 51 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 51 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 51 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 51 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 51 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 51 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 52 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 52 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 52 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 52 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 52 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 52 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 52 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 52 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 52 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 52 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 52 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN in state 52 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN_OR_EQUAL in state 52 resolved as shift
 WARNING: shift/reduce conflict for LESS_THAN_OR_EQUAL in state 52 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 53 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 53 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 53 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 53 resolved as shift
+WARNING: shift/reduce conflict for ADD in state 53 resolved as shift
+WARNING: shift/reduce conflict for SUB in state 53 resolved as shift
+WARNING: shift/reduce conflict for MULT in state 53 resolved as shift
+WARNING: shift/reduce conflict for DIV in state 53 resolved as shift
 WARNING: shift/reduce conflict for EQUAL in state 53 resolved as shift
 WARNING: shift/reduce conflict for NOT_EQUAL in state 53 resolved as shift
 WARNING: shift/reduce conflict for GREATER_THAN in state 53 resolved as shift
