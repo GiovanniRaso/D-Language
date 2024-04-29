@@ -1,9 +1,26 @@
 Program -> Statements
 Statements -> Statement Statements | ε
-Statement -> VarDeclaration | Assignment | PrintStatement
+Statement -> VarDeclaration
+           | Assignment
+           | PrintStatement
+           | CompoundStatement
+           | IfStatement
+           | WhileStatement
+           | ForStatement
 VarDeclaration -> 'var' IDENTIFIER '=' Expression ';'
 Assignment -> IDENTIFIER '=' Expression ';'
-PrintStatement -> 'print' '(' Expression ')' ';'
-Expression -> Term (('+'|'-') Term)*
-Term -> Factor (('*'|'/') Factor)*
-Factor -> INTEGER | IDENTIFIER | '(' Expression ')'
+PrintStatement -> 'print' Expression ';'
+CompoundStatement -> '{' Statements '}'
+IfStatement -> 'if' '(' Expression ')' CompoundStatement
+             | 'if' '(' Expression ')' CompoundStatement 'else' CompoundStatement
+WhileStatement -> 'while' '(' Expression ')' CompoundStatement
+ForStatement -> 'for' '(' Assignment ';' Expression ';' Assignment ')' CompoundStatement
+Expression -> SimpleExpression (('==' | '!=' | '<' | '<=' | '>' | '>=') SimpleExpression)*
+SimpleExpression -> Term (('+' | '-' | 'add' | 'sub') Term)*
+Term -> Factor (('*' | '/' | 'mult' | 'div') Factor)*
+Factor -> INTEGER
+        | FLOAT
+        | STRING
+        | BOOLEAN
+        | IDENTIFIER
+        | '(' Expression ')'
