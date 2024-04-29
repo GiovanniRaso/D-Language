@@ -302,6 +302,10 @@ def interpret_binop(left, op, right):
         return left_val == right_val
     elif op == '!=':
         return left_val != right_val
+    elif op == '&&':
+        return left_val and right_val
+    elif op == '||':
+        return left_val or right_val
     else:
         raise ValueError(f"Unsupported operator: {op}")
 
