@@ -45,6 +45,7 @@ t_NOT       = r'!'
 
 reserved = {
     "if" : "IF",
+    'then' : 'THEN', 
     "else" : "ELSE",
     "for" : "FOR",
     "while" : "WHILE",
@@ -140,13 +141,13 @@ def p_compound_statement(p):
 
 def p_selection_statement(p):
     '''
-    selection_statement : IF LPAREN expression RPAREN statement
-                        | IF LPAREN expression RPAREN statement ELSE statement
+    selection_statement : IF expression THEN compound_statement
+                        | IF expression THEN compound_statement ELSE compound_statement
     '''
-    if len(p) == 6:
-        p[0] = ('if', p[3], p[5])
+    if len(p) == 5:
+        p[0] = ('if', p[2], p[4], None)
     else:
-        p[0] = ('if-else', p[3], p[5], p[7])
+        p[0] = ('if-else', p[2], p[4], p[6])
 
 def p_iteration_statement(p):
     '''
@@ -176,6 +177,12 @@ def p_expression(p):
                | expression MINUS expression
                | expression TIMES expression
                | expression DIVIDE expression
+               | expression EQUAL expression
+               | expression NOT_EQUAL expression
+               | expression GREATER_THAN expression
+               | expression LESS_THAN expression
+               | expression GREATER_THAN_OR_EQUAL expression
+               | expression LESS_THAN_OR_EQUAL expression
                | INTEGER
                | FLOAT
                | STRING
@@ -186,6 +193,7 @@ def p_expression(p):
         p[0] = ('binop', p[1], p[2], p[3])
     else:
         p[0] = ('value', p[1])
+
 
 def p_error(p):
     if p:
@@ -227,7 +235,9 @@ def interpret(ast):
         elif op == 'for':
             return interpret_for(ast[1], ast[2], ast[3], ast[4])
         elif op == 'print':  # Handle 'print' operation
-            print(interpret(ast[1]))
+            value_to_print = interpret(ast[1])  # Evaluate the expression to be printed
+            print(value_to_print)  # Print the result of the expression
+            return
         elif op == 'value':
             if isinstance(ast[1], str) and ast[1] in memory:
                 return memory[ast[1]]
