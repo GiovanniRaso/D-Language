@@ -6,7 +6,7 @@ tokens = (
     'IDENTIFIER',
     'FUNCTION', 'IF', 'ELSE', 'FOR', 'WHILE', 'RETURN', 'VAR', 'CONST', 'TRUE', 'FALSE',
     'ASSIGN', 'PRINT',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MODULUS',
+    'ADD', 'SUB', 'MULT', 'DIV', 'MODULUS',
     'EQUAL', 'NOT_EQUAL', 'GREATER_THAN', 'LESS_THAN', 'GREATER_THAN_OR_EQUAL', 'LESS_THAN_OR_EQUAL',
     'AND', 'OR', 'NOT',
     'LPAREN', 'RPAREN',
@@ -19,11 +19,11 @@ tokens = (
 
 
 t_ASSIGN    = r'='
-t_PLUS      = r'\+'
-t_MINUS     = r'-'
-t_TIMES     = r'\*'
-t_DIVIDE    = r'/'
-t_MODULUS   = r'%'
+t_ADD    = r'\badd\b'
+t_SUB    = r'\sub\b'
+t_MULT   = r'\bmult\b'
+t_DIV    = r'\bdiv\b'
+t_MODULUS   = r'\bmod\b'
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_LEFT_CURLY_BRACE = r'\{'
@@ -44,8 +44,8 @@ t_GREATER_THAN = r'>'
 t_LESS_THAN = r'<'
 t_GREATER_THAN_OR_EQUAL = r'>='
 t_LESS_THAN_OR_EQUAL = r'<='
-t_AND       = r'&&'
-t_OR        = r'\|\|'
+t_AND       = r'\band\b'
+t_OR        = r'\bor\b'
 t_NOT       = r'!'
 
 reserved = {
@@ -61,7 +61,15 @@ reserved = {
     "print" : "PRINT",
     "true" : "TRUE",
     "false" : "FALSE",
-    "var" : "VAR"
+    "var" : "VAR",
+    "sub" : "SUB",
+    "mult" : "MULT",
+    "add" : "ADD",
+    "div" : "DIV",
+    "and" : "AND",
+    "or" : "OR",
+    "mod" : "MODULUS"
+    
 }
 
 def t_FlOAT(t):
@@ -135,6 +143,7 @@ def p_statement(p):
               | declaration_statement
     '''
     p[0] = p[1]
+    
 
 def p_expression_statement(p):
     'expression_statement : expression SEMICOLON'
@@ -176,10 +185,10 @@ def p_declaration_statement(p):
 
 def p_expression(p):
     '''
-    expression : expression PLUS expression
-               | expression MINUS expression
-               | expression TIMES expression
-               | expression DIVIDE expression
+    expression : expression ADD expression
+               | expression SUB expression
+               | expression MULT expression
+               | expression DIV expression
                | expression EQUAL expression
                | expression NOT_EQUAL expression
                | expression GREATER_THAN expression
@@ -196,7 +205,7 @@ def p_expression(p):
         p[0] = ('binop', p[1], p[2], p[3])
     else:
         p[0] = ('value', p[1])
-
+        
 
 def p_error(p):
     if p:
@@ -278,16 +287,16 @@ def interpret_binop(left, op, right):
         left_val = int(left_val)
     if isinstance(right_val, str) and right_val.isdigit():
         right_val = int(right_val)
-    if op == '+':
+    if op == 'add':
         return left_val + right_val
-    elif op == '-':
+    elif op == 'sub':
         return left_val - right_val
-    elif op == '*':
+    elif op == 'mult':
         return left_val * right_val
-    elif op == '/':
+    elif op == 'div':
         if right_val == 0:
             print("Error: Division by zero")  # Print an error message or handle it in another way
-            return None  # You can choose to return None or raise an exception
+            return None
         else:
             return left_val / right_val
     elif op == '>':
@@ -302,9 +311,9 @@ def interpret_binop(left, op, right):
         return left_val == right_val
     elif op == '!=':
         return left_val != right_val
-    elif op == '&&':
+    elif op == 'and':
         return left_val and right_val
-    elif op == '||':
+    elif op == 'or':
         return left_val or right_val
     else:
         raise ValueError(f"Unsupported operator: {op}")
